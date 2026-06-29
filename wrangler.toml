@@ -1,17 +1,13 @@
 name = "junze-anju"
-type = "pages"
-account_id = ""
-workers_dev = true
-
-[env.production]
-name = "junze-anju"
+compatibility_date = "2025-01-01"
 
 [build]
 command = "npm run build"
-directory = "dist"
 
-[d1_databases]
-DB = { binding = "DB", database_name = "junze-anju-db", database_id = "" }
+[[d1_databases]]
+binding = "DB"
+database_name = "junze-anju-db"
+database_id = ""
 
 [vars]
 JWT_SECRET = "your-secret-key-here-change-in-production"

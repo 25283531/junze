@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/fix-css.mjs",
     "preview": "astro preview",
     "deploy": "wrangler pages deploy dist"
   },
