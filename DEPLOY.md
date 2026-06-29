@@ -30,7 +30,7 @@ npm run build
 3. 点击 **Create a project**
 4. 选择 **Upload assets**（直接上传）
 5. 项目名称填写：`junze-anju`
-6. 上传 `dist/` 目录下的所有文件
+6. **重要**：上传整个 `dist/` 目录（包含 `functions/` 子目录），不要只上传静态文件
 7. 点击 **Deploy site**
 
 #### 方式二：通过 wrangler CLI 部署

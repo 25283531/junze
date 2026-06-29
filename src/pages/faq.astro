@@ -143,11 +143,11 @@ const categories = [...new Set(faqs.map(f => f.category))];
       btn.addEventListener('click', () => {
         const category = btn.dataset.category;
 
-        // Update active button styles
+        // Reset all buttons to inactive style
         document.querySelectorAll('.faq-filter-btn').forEach(b => {
-          b.className = b.className.replace('bg-primary text-white shadow-md', 'bg-white text-gray-700 border border-gray-200');
-          b.className = b.className.replace('bg-white border border-gray-200 text-gray-700', 'bg-white border border-gray-200 text-gray-700');
+          b.className = 'faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300';
         });
+        // Set clicked button to active style
         btn.className = 'faq-filter-btn bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md';
 
         // Filter items
