@@ -1,0 +1,156 @@
+---
+import AdminLayout from '@/components/AdminLayout.astro';
+---
+
+<AdminLayout title="FAQ管理">
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-semibold">FAQ列表</h2>
+      <button onclick="openModal()" class="bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+        添加FAQ
+      </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gray-50">
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">问题</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">排序</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">操作</th>
+          </tr>
+        </thead>
+        <tbody id="faqTable">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold" id="modalTitle">添加FAQ</h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="faqForm" class="space-y-4">
+        <input type="hidden" id="faqId" />
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">问题</label>
+          <input type="text" id="faqQuestion" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">回答</label>
+          <textarea id="faqAnswer" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" rows="5"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">排序</label>
+          <input type="number" id="faqSort" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        <div class="flex justify-end space-x-4 pt-4">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">取消</button>
+          <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    async function loadFaq() {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/admin/faq', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const faq = await response.json();
+      const table = document.getElementById('faqTable');
+      table.innerHTML = faq.map(item => `
+        <tr class="border-b border-gray-100">
+          <td class="px-4 py-3">${item.id}</td>
+          <td class="px-4 py-3 max-w-xs truncate">${item.question}</td>
+          <td class="px-4 py-3">${item.sort_order}</td>
+          <td class="px-4 py-3">
+            <button onclick="editFaq(${item.id})" class="text-primary hover:text-primary-dark mr-4">编辑</button>
+            <button onclick="deleteFaq(${item.id})" class="text-red-500 hover:text-red-700">删除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    function openModal() {
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+      document.getElementById('modalTitle').textContent = '添加FAQ';
+      document.getElementById('faqForm').reset();
+      document.getElementById('faqId').value = '';
+    }
+    
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+    
+    async function editFaq(id) {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/admin/faq', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const faq = await response.json();
+      const item = faq.find(f => f.id === id);
+      if (item) {
+        document.getElementById('modalTitle').textContent = '编辑FAQ';
+        document.getElementById('faqId').value = item.id;
+        document.getElementById('faqQuestion').value = item.question;
+        document.getElementById('faqAnswer').value = item.answer;
+        document.getElementById('faqSort').value = item.sort_order;
+        document.getElementById('modal').classList.remove('hidden');
+        document.getElementById('modal').classList.add('flex');
+      }
+    }
+    
+    async function deleteFaq(id) {
+      if (confirm('确定要删除这个FAQ吗？')) {
+        const token = localStorage.getItem('token');
+        await fetch(`/admin/faq?id=${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        loadFaq();
+      }
+    }
+    
+    document.getElementById('faqForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      const id = document.getElementById('faqId').value;
+      const data = {
+        question: document.getElementById('faqQuestion').value,
+        answer: document.getElementById('faqAnswer').value,
+        sort_order: document.getElementById('faqSort').value
+      };
+      
+      if (id) {
+        data.id = parseInt(id);
+        await fetch('/admin/faq', {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } else {
+        await fetch('/admin/faq', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      }
+      
+      closeModal();
+      loadFaq();
+    });
+    
+    loadFaq();
+  </script>
+</AdminLayout>

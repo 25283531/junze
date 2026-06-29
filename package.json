@@ -1,0 +1,21 @@
+{
+  "name": "junze-anju",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "wrangler pages deploy dist"
+  },
+  "dependencies": {
+    "astro": "^4.15.9",
+    "@lucide/astro": "^0.500.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.65.0"
+  }
+}

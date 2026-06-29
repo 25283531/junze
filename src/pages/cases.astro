@@ -1,0 +1,126 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+const cases = [
+  {
+    id: 1,
+    title: '湛河区适老化改造案例',
+    description: '为高龄老人家庭完成全屋适老化改造',
+    area: '湛河区',
+    community: '阳光花园小区',
+    service_content: '安装防滑地砖、卫生间安全扶手、走廊扶手，部署毫米波雷达跌倒检测系统，安装智能感应灯光和紧急呼叫按钮',
+    completion_date: '2026-05-15',
+    review: '服务非常专业，老人现在生活更安全了，子女也更放心。感谢钧泽安居！',
+  },
+  {
+    id: 2,
+    title: '卫东区水电改造案例',
+    description: '老房水电线路全面改造升级',
+    area: '卫东区',
+    community: '建设路街道办事处家属院',
+    service_content: '更换全部老化电线，重新布置电路走向，更换水管和水龙头，安装智能开关',
+    completion_date: '2026-04-28',
+    review: '施工规范，师傅技术好，改造后家里用电用水都安全多了。',
+  },
+  {
+    id: 3,
+    title: '新华区厨房翻新案例',
+    description: '老旧厨房全面翻新改造',
+    area: '新华区',
+    community: '中兴路小区',
+    service_content: '更换橱柜和台面，重做防水，更换地砖墙砖，安装新油烟机',
+    completion_date: '2026-04-10',
+    review: '厨房焕然一新，现在做饭心情都好了。',
+  },
+  {
+    id: 4,
+    title: '汝州市智能家居案例',
+    description: '全屋智能家居系统安装',
+    area: '汝州市',
+    community: '绿城小区',
+    service_content: '安装智能照明、智能安防、智能窗帘、智能空调控制系统',
+    completion_date: '2026-03-25',
+    review: '智能家居太方便了，语音控制各种设备，生活品质提升很多。',
+  },
+];
+---
+
+<Layout title="真实案例 - 钧泽安居" description="钧泽安居真实服务案例展示，涵盖平顶山各区县的适老化改造、水电维修、局部改造、智能家居等服务案例" keywords="平顶山适老化改造案例,平顶山水电改造案例,平顶山智能家居案例">
+  <section class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="flex items-center space-x-2 text-gray-500">
+        <a href="/" class="hover:text-primary transition-colors">首页</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span class="text-gray-900 font-medium">真实案例</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">真实案例与本地口碑</h1>
+        <p class="text-gray-500 text-lg">每一个案例都是我们用心服务的见证，每一条评价都是客户对我们的认可</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {cases.map(caseItem => (
+          <div key={caseItem.id} class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100">
+            <div class="bg-gradient-to-r from-primary/5 to-primary/10 px-6 py-4 border-b border-gray-100">
+              <div class="flex items-center justify-between">
+                <span class="bg-primary text-white text-sm font-semibold px-4 py-1.5 rounded-full">
+                  {caseItem.area}
+                </span>
+                <span class="text-gray-500 text-sm">{caseItem.completion_date}</span>
+              </div>
+            </div>
+            <div class="p-8">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">{caseItem.title}</h3>
+              <p class="text-gray-500 mb-6">{caseItem.description}</p>
+              <div class="flex items-center space-x-3 mb-6 text-sm text-gray-600">
+                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>{caseItem.community}</span>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-5 mb-6">
+                <p class="text-sm text-gray-700">
+                  <strong class="text-gray-900 font-medium">服务内容：</strong>{caseItem.service_content}
+                </p>
+              </div>
+              <div class="border-l-4 border-primary pl-5 py-1">
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                  </svg>
+                  <p class="text-gray-600 italic">{caseItem.review}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-gradient-to-br from-primary/5 to-primary/10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">想了解更多案例？</h2>
+      <p class="text-gray-500 text-lg mb-10">拨打服务热线或添加微信，我们将为您提供更多适合您需求的案例参考</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="tel:0375-8888888" class="inline-flex items-center justify-center bg-primary text-white font-semibold px-10 py-4 rounded-xl hover:bg-primary-dark transition-all duration-300 shadow-lg hover:shadow-xl">
+          <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+          </svg>
+          <span class="text-lg">0375-8888888</span>
+        </a>
+        <a href="#" class="inline-flex items-center justify-center border-2 border-primary text-primary font-semibold px-10 py-4 rounded-xl hover:bg-primary hover:text-white transition-all duration-300">
+          添加微信咨询
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

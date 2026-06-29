@@ -1,0 +1,172 @@
+---
+import AdminLayout from '@/components/AdminLayout.astro';
+---
+
+<AdminLayout title="服务管理">
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-semibold">服务列表</h2>
+      <button onclick="openModal()" class="bg-primary text-white font-medium px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+        添加服务
+      </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gray-50">
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">标题</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">价格</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">排序</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">操作</th>
+          </tr>
+        </thead>
+        <tbody id="servicesTable">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold" id="modalTitle">添加服务</h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="serviceForm" class="space-y-4">
+        <input type="hidden" id="serviceId" />
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">标题</label>
+          <input type="text" id="serviceTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">别名（URL）</label>
+          <input type="text" id="serviceSlug" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">描述</label>
+          <input type="text" id="serviceDescription" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">价格区间</label>
+          <input type="text" id="servicePrice" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">排序</label>
+          <input type="number" id="serviceSort" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        <div class="flex justify-end space-x-4 pt-4">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">取消</button>
+          <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    async function loadServices() {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/admin/services', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const services = await response.json();
+      const table = document.getElementById('servicesTable');
+      table.innerHTML = services.map(service => `
+        <tr class="border-b border-gray-100">
+          <td class="px-4 py-3">${service.id}</td>
+          <td class="px-4 py-3">${service.title}</td>
+          <td class="px-4 py-3">${service.price_range}</td>
+          <td class="px-4 py-3">${service.sort_order}</td>
+          <td class="px-4 py-3">
+            <button onclick="editService(${service.id})" class="text-primary hover:text-primary-dark mr-4">编辑</button>
+            <button onclick="deleteService(${service.id})" class="text-red-500 hover:text-red-700">删除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+    
+    function openModal() {
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+      document.getElementById('modalTitle').textContent = '添加服务';
+      document.getElementById('serviceForm').reset();
+      document.getElementById('serviceId').value = '';
+    }
+    
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+    
+    async function editService(id) {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/admin/services', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const services = await response.json();
+      const service = services.find(s => s.id === id);
+      if (service) {
+        document.getElementById('modalTitle').textContent = '编辑服务';
+        document.getElementById('serviceId').value = service.id;
+        document.getElementById('serviceTitle').value = service.title;
+        document.getElementById('serviceSlug').value = service.slug;
+        document.getElementById('serviceDescription').value = service.description;
+        document.getElementById('servicePrice').value = service.price_range;
+        document.getElementById('serviceSort').value = service.sort_order;
+        document.getElementById('modal').classList.remove('hidden');
+        document.getElementById('modal').classList.add('flex');
+      }
+    }
+    
+    async function deleteService(id) {
+      if (confirm('确定要删除这个服务吗？')) {
+        const token = localStorage.getItem('token');
+        await fetch(`/admin/services?id=${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        loadServices();
+      }
+    }
+    
+    document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      const id = document.getElementById('serviceId').value;
+      const data = {
+        title: document.getElementById('serviceTitle').value,
+        slug: document.getElementById('serviceSlug').value,
+        description: document.getElementById('serviceDescription').value,
+        price_range: document.getElementById('servicePrice').value,
+        sort_order: document.getElementById('serviceSort').value,
+        process: ['步骤1', '步骤2', '步骤3', '步骤4', '步骤5'],
+        icon: 'Home'
+      };
+      
+      if (id) {
+        data.id = parseInt(id);
+        await fetch('/admin/services', {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } else {
+        await fetch('/admin/services', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      }
+      
+      closeModal();
+      loadServices();
+    });
+    
+    loadServices();
+  </script>
+</AdminLayout>

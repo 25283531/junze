@@ -1,0 +1,305 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const servicesData = {
+    'jia-zheng-fu-wu': {
+      title: '家政服务',
+      description: '专业家政保洁服务，让您的家焕然一新',
+      content: [
+        '我们提供全方位的家政保洁服务，包括日常保洁、深度保洁、新居开荒等。专业团队，用心服务，让您的家始终保持整洁舒适。',
+        {
+          title: '服务内容',
+          items: [
+            '日常保洁：客厅、卧室、厨房、卫生间全面清洁',
+            '深度保洁：家电清洗、窗帘清洗、地毯清洗',
+            '新居开荒：新房装修后彻底清洁',
+            '玻璃清洗：内外窗玻璃专业擦拭',
+            '除螨服务：床品、沙发深度除螨',
+          ]
+        }
+      ],
+      price_range: '根据服务面积和内容定价，一般家庭日常保洁 100-300 元/次',
+      process: ['预约咨询', '上门评估', '制定方案', '专业服务', '验收反馈'],
+      icon: 'Home',
+    },
+    'shui-dian-wei-xiu': {
+      title: '水电维修',
+      description: '专业水电维修安装服务，安全可靠',
+      content: [
+        '我们拥有专业的水电维修团队，提供快速响应的水电维修服务。无论是水管漏水、电路故障还是新装改造，我们都能高效解决。',
+        {
+          title: '服务内容',
+          items: [
+            '水管维修：漏水检测、管道更换、水龙头维修',
+            '电路维修：短路排查、开关插座更换、线路改造',
+            '热水器维修：燃气热水器、电热水器故障处理',
+            '浴霸安装：集成吊顶浴霸安装调试',
+            '智能开关：智能照明系统安装',
+          ]
+        }
+      ],
+      price_range: '上门服务费 50-100 元，材料费用另计',
+      process: ['电话报修', '快速响应', '现场诊断', '维修施工', '质量保证'],
+      icon: 'Wrench',
+    },
+    'ju-bu-gai-zao': {
+      title: '局部改造',
+      description: '房屋局部空间改造，提升居住品质',
+      content: [
+        '针对房屋局部空间进行改造升级，包括厨房翻新、卫生间改造、阳台利用等，让您的居住空间更舒适实用。',
+        {
+          title: '服务内容',
+          items: [
+            '厨房翻新：橱柜更换、台面更新、防水处理',
+            '卫生间改造：干湿分离、马桶更换、淋浴区改造',
+            '阳台改造：阳台封窗、储物空间打造、休闲区设计',
+            '墙面翻新：墙面修补、乳胶漆刷新、壁纸更换',
+            '地面翻新：地砖更换、木地板安装',
+          ]
+        }
+      ],
+      price_range: '根据改造面积和材料定价，一般局部改造 3000-10000 元',
+      process: ['需求沟通', '方案设计', '报价确认', '施工改造', '竣工验收'],
+      icon: 'Hammer',
+    },
+    'shi-lao-hua-gai-zao': {
+      title: '适老化改造',
+      description: '专业适老化改造，关爱老人生活',
+      content: [
+        '为高龄老人家庭提供专业的适老化改造服务，安装防滑设施、安全扶手、智能监测设备，让老人生活更安全、更便捷。',
+        {
+          title: '服务内容',
+          items: [
+            '地面防滑：防滑地砖更换、地面防滑处理',
+            '安全扶手：卫生间扶手、走廊扶手、床边扶手',
+            '无障碍通道：门槛消除、坡道改造',
+            '智能监测：毫米波雷达跌倒检测系统',
+            '智能照明：感应灯光、夜间照明',
+            '紧急呼叫：一键呼叫系统安装',
+          ]
+        }
+      ],
+      price_range: '根据改造项目和面积定价，一般适老化改造 5000-20000 元',
+      process: ['上门勘测', '方案设计', '专业施工', '设备调试', '售后培训'],
+      icon: 'Heart',
+    },
+    'smart-home': {
+      title: '智能家居',
+      description: '智能家居系统安装，享受智慧生活',
+      content: [
+        '提供全屋智能家居系统设计与安装服务，让您的家更智能、更便捷、更安全。',
+        {
+          title: '服务内容',
+          items: [
+            '智能照明：语音控制、定时开关、场景模式',
+            '智能安防：监控摄像头、智能门锁、门窗传感器',
+            '智能空调：远程控制、温度调节',
+            '智能窗帘：定时开合、语音控制',
+            '智能影音：全屋音响、家庭影院',
+          ]
+        }
+      ],
+      price_range: '根据系统配置定价，一般智能家居 8000-30000 元',
+      process: ['需求分析', '方案设计', '设备采购', '安装调试', '使用培训'],
+      icon: 'Cpu',
+    },
+    'fang-wu-jian-ce': {
+      title: '房屋检测',
+      description: '专业房屋检测，保障居住安全',
+      content: [
+        '提供专业的房屋检测服务，包括水电安全检测、结构检测、空气质量检测等，让您安心居住。',
+        {
+          title: '服务内容',
+          items: [
+            '水电安全检测：线路老化检测、水管渗漏检测',
+            '房屋结构检测：墙体裂缝检测、承重结构检测',
+            '空气质量检测：甲醛检测、TVOC检测',
+            '防水检测：卫生间防水、屋顶防水检测',
+            '白蚁防治：白蚁检测与防治',
+          ]
+        }
+      ],
+      price_range: '根据检测项目定价，一般房屋检测 500-2000 元',
+      process: ['预约检测', '现场检测', '数据采集', '报告出具', '建议方案'],
+      icon: 'Search',
+    },
+    'bao-jie-qing-xi': {
+      title: '保洁清洗',
+      description: '专业保洁清洗服务，洁净每一天',
+      content: [
+        '提供各类保洁清洗服务，包括开荒保洁、外墙清洗、空调清洗等，让您的环境始终保持洁净。',
+        {
+          title: '服务内容',
+          items: [
+            '开荒保洁：新房、写字楼装修后清洁',
+            '外墙清洗：玻璃幕墙清洗、外墙翻新',
+            '空调清洗：中央空调、家用空调深度清洗',
+            '油烟管道清洗：厨房油烟管道清理',
+            '石材养护：大理石抛光、结晶处理',
+          ]
+        }
+      ],
+      price_range: '根据服务类型和面积定价',
+      process: ['预约服务', '现场评估', '专业清洗', '质量验收', '售后保障'],
+      icon: 'Sparkles',
+    },
+  };
+
+  return Object.keys(servicesData).map(slug => ({
+    params: { slug },
+    props: { service: servicesData[slug] },
+  }));
+}
+
+const { service } = Astro.props;
+
+const iconPaths = {
+  Home: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+  Wrench: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  Hammer: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+  Heart: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+  Cpu: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  Search: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7',
+  Sparkles: 'M13 10V3L4 14h7v7l9-11h-7z',
+};
+---
+
+<Layout title={`${service.title} - 钧泽安居`} description={service.description} keywords={`平顶山${service.title}`}>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "{service.title}",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "钧泽安居",
+        "telephone": "0375-8888888",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "平顶山",
+          "addressRegion": "河南"
+        }
+      },
+      "description": "{service.description}",
+      "areaServed": ["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"]
+    }
+  </script>
+
+  <section class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="flex items-center space-x-2 text-gray-500">
+        <a href="/" class="hover:text-primary transition-colors">首页</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <a href="/services/jia-zheng-fu-wu" class="hover:text-primary transition-colors">服务项目</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span class="text-gray-900 font-medium">{service.title}</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col lg:flex-row gap-10">
+        <div class="flex-1">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 mb-8">
+            <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPaths[service.icon]} />
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{service.title}</h1>
+              <p class="text-gray-500 text-lg">{service.description}</p>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+              <span class="w-1 h-6 bg-primary rounded-full mr-3"></span>
+              服务介绍
+            </h2>
+            <div class="space-y-6">
+              {service.content.map((item, index) => (
+                typeof item === 'string' ? (
+                  <p key={index} class="text-gray-600 leading-relaxed text-lg">{item}</p>
+                ) : (
+                  <div key={index}>
+                    <h3 class="font-semibold text-gray-900 mb-4">{item.title}</h3>
+                    <ul class="space-y-3">
+                      {item.items.map((listItem, idx) => (
+                        <li key={idx} class="flex items-start space-x-3">
+                          <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                          <span class="text-gray-600">{listItem}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              ))}
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm p-8 mb-8 border border-gray-100">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+              <span class="w-1 h-6 bg-secondary rounded-full mr-3"></span>
+              收费标准
+            </h2>
+            <div class="flex items-start space-x-4">
+              <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-gray-900 font-semibold text-lg">{service.price_range}</p>
+                <p class="text-gray-500 mt-1">所有服务价格透明公开，无隐藏收费，服务前提供详细报价</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <h2 class="text-xl font-bold text-gray-900 mb-8 flex items-center">
+              <span class="w-1 h-6 bg-accent rounded-full mr-3"></span>
+              服务流程
+            </h2>
+            <div class="relative">
+              <div class="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-gray-200"></div>
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                {service.process.map((step, index) => (
+                  <div key={index} class="relative text-center">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 relative z-10">
+                      <span class="text-primary font-bold text-xl">{index + 1}</span>
+                    </div>
+                    <span class="text-gray-700 font-semibold">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full lg:w-80">
+          <div class="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 text-white sticky top-24">
+            <h3 class="text-xl font-bold mb-2">立即预约</h3>
+            <p class="text-white/80 mb-8">我们将在24小时内与您联系</p>
+            <a href="tel:0375-8888888" class="block bg-white text-primary font-semibold text-center py-4 rounded-xl hover:bg-gray-100 transition-colors mb-4 text-lg">
+              0375-8888888
+            </a>
+            <a href="#" class="block border-2 border-white/50 text-white font-semibold text-center py-4 rounded-xl hover:bg-white/10 transition-colors">
+              添加微信咨询
+            </a>
+            <div class="mt-8 pt-8 border-t border-white/20">
+              <p class="text-white/60 text-sm mb-2">服务时间</p>
+              <p class="font-medium">24小时全天候服务</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
