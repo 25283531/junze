@@ -43,7 +43,16 @@ npx wrangler login
 npx wrangler pages deploy dist --project-name junze-anju
 ```
 
-### 4. 创建 D1 数据库（控制台操作）
+### 4. 创建 KV 命名空间（控制台操作）
+
+1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)
+2. 左侧菜单进入 **Workers & Pages** -> **KV**
+3. 点击 **Create namespace**
+4. 命名空间名称填写：`junze-anju-kv`
+5. 点击 **Create** 创建命名空间
+6. 创建成功后，记录下 **Namespace ID**（例如：`8a98f7fefdad4cc9970b322d882f3c05`）
+
+### 5. 创建 D1 数据库（控制台操作）
 
 1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)
 2. 左侧菜单进入 **Workers & Pages** -> **D1 SQL Database**
@@ -51,7 +60,7 @@ npx wrangler pages deploy dist --project-name junze-anju
 4. 数据库名称填写：`junze-anju-db`
 5. 点击 **Create** 创建数据库
 
-### 5. 初始化数据库（通过控制台执行 SQL）
+### 6. 初始化数据库（通过控制台执行 SQL）
 
 1. 创建成功后，进入数据库详情页
 2. 点击 **Console** 标签页
@@ -106,6 +115,7 @@ CREATE TABLE IF NOT EXISTS business_info (
   address TEXT,
   service_areas TEXT,
   license TEXT,
+  license_image_key TEXT,
   wechat TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -157,7 +167,7 @@ INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES
 
 > **注意**：默认管理员密码是 `admin123`，首次登录后请立即修改密码！
 
-### 6. 绑定 D1 数据库到 Pages
+### 7. 绑定 D1 数据库到 Pages
 
 1. 进入 Pages 项目 `junze-anju`
 2. 点击 **Settings** -> **Bindings**
@@ -167,19 +177,50 @@ INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES
    - **D1 database**: 选择 `junze-anju-db`
 5. 点击 **Save**
 
-### 7. 设置环境变量
+### 8. 绑定 KV 命名空间到 Pages
+
+1. 在 **Settings** -> **Bindings** 页面
+2. 在 **KV namespace bindings** 中点击 **Add binding**
+3. 填写：
+   - **Variable name**: `KV`
+   - **KV namespace**: 选择 `junze-anju-kv`
+4. 点击 **Save**
+
+### 9. 设置环境变量和密钥
 
 在 Pages 项目中：
 
 1. 进入 **Settings** -> **Environment variables**
-2. 添加以下变量：
+2. 在 **Production environment variables** 中点击 **Add variable**
 
-| 变量名 | 值 | 说明 |
-|--------|-----|------|
-| JWT_SECRET | your-secret-key-here-change-in-production | JWT 加密密钥（建议修改） |
-| ADMIN_PASSWORD | admin123 | 默认管理员密码（建议修改） |
+#### 添加 JWT_SECRET（密钥类型）
 
-**注意**：需要同时在 **Production** 和 **Preview** 环境中设置。
+| 项目 | 值 |
+|------|-----|
+| **Variable name** | `JWT_SECRET` |
+| **Value** | 输入一个安全的随机字符串（建议至少32位） |
+| **Secret** | ✅ **勾选**（将此变量标记为密钥） |
+
+> **说明**：JWT_SECRET 用于签名和验证 JWT Token，属于敏感信息，必须设置为 **密钥（Secret）** 类型，这样在控制台中不会明文显示。
+
+#### 添加 ADMIN_PASSWORD（密钥类型）
+
+| 项目 | 值 |
+|------|-----|
+| **Variable name** | `ADMIN_PASSWORD` |
+| **Value** | 输入管理员密码（默认：`admin123`） |
+| **Secret** | ✅ **勾选**（将此变量标记为密钥） |
+
+> **说明**：ADMIN_PASSWORD 是管理员登录密码，属于敏感信息，必须设置为 **密钥（Secret）** 类型。
+
+#### 变量类型说明
+
+| 变量名 | 类型 | 说明 |
+|--------|------|------|
+| `JWT_SECRET` | **密钥（Secret）** | JWT 加密密钥，敏感信息 |
+| `ADMIN_PASSWORD` | **密钥（Secret）** | 管理员登录密码，敏感信息 |
+
+**重要**：设置完成后，需要点击页面底部的 **Save** 按钮保存。同时需要在 **Preview environment variables** 中设置相同的变量，以便预览环境也能正常工作。
 
 ## 管理后台
 

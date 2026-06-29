@@ -10,8 +10,6 @@ export const onRequest = async ({ env, request }) => {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
 
-  const db = env.DB;
-  
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -29,47 +27,45 @@ export const onRequest = async ({ env, request }) => {
     });
   }
 
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: CORS_HEADERS
+    });
+  }
+
   try {
-    switch (request.method) {
-      case 'GET': {
-        const result = await db.prepare(
-          'SELECT * FROM business_info WHERE id = 1'
-        ).first();
-        if (result) {
-          result.service_areas = JSON.parse(result.service_areas);
-        }
-        return new Response(JSON.stringify(result), {
-          headers: CORS_HEADERS
-        });
-      }
-
-      case 'PUT': {
-        const body = await request.json();
-        const result = await db.prepare(
-          'UPDATE business_info SET name = ?, description = ?, telephone = ?, address = ?, service_areas = ?, license = ?, license_image_key = ?, wechat = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1'
-        ).bind(
-          body.name,
-          body.description,
-          body.telephone,
-          body.address,
-          JSON.stringify(body.service_areas),
-          body.license,
-          body.license_image_key,
-          body.wechat
-        ).run();
-        return new Response(JSON.stringify({ success: true, changes: result.changes }), {
-          headers: CORS_HEADERS
-        });
-      }
-
-      default:
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-          status: 405,
-          headers: CORS_HEADERS
-        });
+    const formData = await request.formData();
+    const file = formData.get('file');
+    
+    if (!file) {
+      return new Response(JSON.stringify({ error: 'No file uploaded' }), {
+        status: 400,
+        headers: CORS_HEADERS
+      });
     }
+
+    const buffer = await file.arrayBuffer();
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    const mimeType = file.type;
+    
+    const imageData = {
+      data: base64,
+      mimeType: mimeType,
+      filename: file.name,
+      uploadedAt: new Date().toISOString()
+    };
+
+    const imageKey = `license_${Date.now()}`;
+    await env.KV.put(imageKey, JSON.stringify(imageData), {
+      expirationTtl: 60 * 60 * 24 * 365
+    });
+
+    return new Response(JSON.stringify({ success: true, imageKey }), {
+      headers: CORS_HEADERS
+    });
   } catch (error) {
-    console.error('Admin settings error:', error);
+    console.error('Upload error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: CORS_HEADERS

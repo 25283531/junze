@@ -46,7 +46,7 @@ export const onRequest = async ({ env, request }) => {
       case 'PUT': {
         const body = await request.json();
         const result = await db.prepare(
-          'UPDATE business_info SET name = ?, description = ?, telephone = ?, address = ?, service_areas = ?, license = ?, wechat = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1'
+          'UPDATE business_info SET name = ?, description = ?, telephone = ?, address = ?, service_areas = ?, license = ?, license_image_key = ?, wechat = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1'
         ).bind(
           body.name,
           body.description,
@@ -54,6 +54,7 @@ export const onRequest = async ({ env, request }) => {
           body.address,
           JSON.stringify(body.service_areas),
           body.license,
+          body.license_image_key,
           body.wechat
         ).run();
         return new Response(JSON.stringify({ success: true, changes: result.changes }), {

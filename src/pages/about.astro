@@ -172,11 +172,20 @@ import Layout from '@/layouts/Layout.astro';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div>
             <h3 class="text-xl font-bold text-gray-900 mb-6">营业执照</h3>
-            <div class="bg-gray-50 rounded-xl p-8 text-center">
-              <svg class="w-20 h-20 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              <p class="text-gray-600">营业执照号：XXXXXX</p>
+            <div class="bg-gray-50 rounded-xl p-8" id="licenseContainer">
+              <div class="text-center" id="licensePlaceholder">
+                <svg class="w-20 h-20 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <p class="text-gray-600">营业执照号：XXXXXX</p>
+              </div>
+              <div class="hidden" id="licenseImageWrapper">
+                <div class="relative overflow-hidden rounded-lg">
+                  <img id="licenseImage" src="" alt="营业执照" class="w-full max-h-[400px] object-contain" />
+                  <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+                </div>
+                <p class="text-center text-gray-500 text-sm mt-3">营业执照号：XXXXXX</p>
+              </div>
             </div>
           </div>
           <div>
@@ -220,4 +229,36 @@ import Layout from '@/layouts/Layout.astro';
       </div>
     </div>
   </section>
+
+  <script>
+    async function loadLicenseImage() {
+      try {
+        const response = await fetch('/api/business');
+        const data = await response.json();
+        
+        if (data && data.license_image_key) {
+          const licensePlaceholder = document.getElementById('licensePlaceholder');
+          const licenseImageWrapper = document.getElementById('licenseImageWrapper');
+          const licenseImage = document.getElementById('licenseImage');
+          
+          licensePlaceholder.classList.add('hidden');
+          licenseImageWrapper.classList.remove('hidden');
+          licenseImage.src = `/api/admin/get-image?key=${data.license_image_key}`;
+        }
+      } catch (error) {
+        console.error('Failed to load license image:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadLicenseImage();
+      
+      const licenseImage = document.getElementById('licenseImage');
+      if (licenseImage) {
+        licenseImage.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+        });
+      }
+    });
+  </script>
 </Layout>

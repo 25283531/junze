@@ -68,7 +68,7 @@ import AdminLayout from '@/components/AdminLayout.astro';
     </div>
   </div>
   
-  <script>
+  <script is:inline>
     async function loadServices() {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/admin/services', {

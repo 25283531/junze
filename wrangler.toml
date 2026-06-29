@@ -3,12 +3,3 @@ compatibility_date = "2025-01-01"
 
 [build]
 command = "npm run build"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "junze-anju-db"
-database_id = "YOUR_DATABASE_ID_HERE"
-
-[vars]
-JWT_SECRET = "your-secret-key-here-change-in-production"
-ADMIN_PASSWORD = "admin123"

@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS business_info (
   address TEXT,
   service_areas TEXT,
   license TEXT,
+  license_image_key TEXT,
   wechat TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -78,8 +79,8 @@ INSERT OR IGNORE INTO faq (question, answer, category, sort_order) VALUES
 ('如何预约服务？', '您可以通过以下方式预约服务：1. 拨打服务热线：0375-XXXXXXX；2. 添加微信：XXXXXXX；3. 填写网站预约表单。我们会在24小时内与您联系，确认服务时间。', '预约方式', 7),
 ('服务后有质量保证吗？', '有的。我们对所有服务提供质量保证。水电维修提供3个月质保，改造工程提供1年质保，保洁服务提供7天内不满意免费返工。如有任何问题，请及时联系我们。', '售后服务', 8);
 
-INSERT OR IGNORE INTO business_info (id, name, description, telephone, address, service_areas, license, wechat) VALUES
-(1, '钧泽安居', '河南平顶山本地专业的家政、水电维修、适老化与智能家居改造服务商，致力于为平顶山市民提供优质、专业、便捷的家居服务。', '0375-8888888', '平顶山市湛河区建设路东段', '["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"]', '营业执照号：XXXXXX', 'junze-anju');
+INSERT OR IGNORE INTO business_info (id, name, description, telephone, address, service_areas, license, license_image_key, wechat) VALUES
+(1, '钧泽安居', '河南平顶山本地专业的家政、水电维修、适老化与智能家居改造服务商，致力于为平顶山市民提供优质、专业、便捷的家居服务。', '0375-8888888', '平顶山市湛河区建设路东段', '["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"]', '营业执照号：XXXXXX', NULL, 'junze-anju');
 
 INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES
 ('admin', '$2b$10$EixZaYbB.rK4fl8x2q7Meu6Q6D2V5fF5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q');
