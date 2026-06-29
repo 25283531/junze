@@ -1,4 +1,4 @@
-export const onRequest: PagesFunction = async ({ env, request }) => {
+export const onRequest = async ({ env, request }) => {
   const db = env.DB;
   
   if (request.method !== 'POST') {
@@ -22,15 +22,6 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
       });
     }
 
-    const encoder = new TextEncoder();
-    const passwordBytes = encoder.encode(password);
-    const hashBytes = encoder.encode(user.password_hash);
-    const match = await crypto.subtle.digest('SHA-256', passwordBytes);
-    
-    const passwordHash = Array.from(new Uint8Array(match))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-
     if (password !== 'admin123') {
       return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
         status: 401,
@@ -52,7 +43,7 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
   }
 };
 
-async function generateToken(username: string, secret: string): Promise<string> {
+async function generateToken(username, secret) {
   const payload = {
     username,
     exp: Math.floor(Date.now() / 1000) + 86400

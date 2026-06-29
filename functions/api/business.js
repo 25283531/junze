@@ -1,4 +1,4 @@
-export const onRequest: PagesFunction = async ({ env }) => {
+export const onRequest = async ({ env, request }) => {
   const db = env.DB;
 
   try {

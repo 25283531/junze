@@ -26,11 +26,11 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-a {
+a:not([class]) {
   color: var(--color-primary);
   text-decoration: none;
 }
 
-a:hover {
+a:not([class]):hover {
   color: var(--color-primary-dark);
 }

@@ -7,7 +7,7 @@ const faqs = [
   { id: 3, question: '家政保洁服务包含哪些内容？', answer: '我们的家政保洁服务包含日常保洁、深度保洁、新居开荒等。日常保洁包括客厅、卧室、厨房、卫生间的全面清洁；深度保洁增加家电清洗、窗帘清洗、地毯清洗等项目；新居开荒针对新房装修后的彻底清洁。', category: '家政服务' },
   { id: 4, question: '适老化改造需要多长时间？', answer: '适老化改造的时间取决于改造项目的多少和复杂程度。一般简单的适老化改造（如安装扶手、防滑处理）1-2 天即可完成；较复杂的改造（如智能设备安装、无障碍通道改造）可能需要 3-5 天。', category: '适老化改造' },
   { id: 5, question: '智能家居系统可以远程控制吗？', answer: '可以的。我们安装的智能家居系统支持手机 APP 远程控制，您可以随时随地控制家里的灯光、空调、窗帘等设备。同时支持语音控制，让操作更便捷。', category: '智能家居' },
-  { id: 6, question: '服务区域覆盖哪些地方？', answer: '我们的服务区域覆盖平顶山全市，包括湛河区、卫东区、新华区、石龙区、舞钢市、汝州市、郏县、宝丰县、鲁山县。无论您在哪个区县，我们都能提供专业的服务。', category: '服务范围' },
+  { id: 6, question: '服务区域覆盖哪些地方？', answer: '我们的服务区域覆盖平顶山全市，包括湛河区、卫东区、新华区、石龙区、舞钢市、汝州市、县、宝丰县、鲁山县。无论您在哪个区县，我们都能提供专业的服务。', category: '服务范围' },
   { id: 7, question: '如何预约服务？', answer: '您可以通过以下方式预约服务：1. 拨打服务热线：0375-8888888；2. 添加微信：junze-anju；3. 填写网站预约表单。我们会在24小时内与您联系，确认服务时间。', category: '预约方式' },
   { id: 8, question: '服务后有质量保证吗？', answer: '有的。我们对所有服务提供质量保证。水电维修提供3个月质保，改造工程提供1年质保，保洁服务提供7天内不满意免费返工。如有任何问题，请及时联系我们。', category: '售后服务' },
 ];
@@ -68,37 +68,36 @@ const categories = [...new Set(faqs.map(f => f.category))];
         <p class="text-gray-500 text-lg">以下是客户经常咨询的问题，如果没有找到您需要的答案，请随时联系我们</p>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-3 mb-10">
-        <button 
-          class="bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md"
-          onclick="filterFAQs('all')"
+      <div class="flex flex-wrap justify-center gap-3 mb-10" id="faq-filters">
+        <button
+          class="faq-filter-btn bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md"
+          data-category="all"
         >
           全部
         </button>
         {categories.map(category => (
-          <button 
-            key={category} 
-            class="bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-            onclick="filterFAQs('${category}')"
+          <button
+            key={category}
+            class="faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+            data-category={category}
           >
             {category}
           </button>
         ))}
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-4" id="faq-list">
         {faqs.map(faq => (
-          <div key={faq.id} class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md" id={`faq-${faq.id}`}>
-            <button 
-              class="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
-              onclick="toggleFAQ(${faq.id})"
+          <div key={faq.id} class="faq-item bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md" data-category={faq.category}>
+            <button
+              class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
             >
               <span class="font-semibold text-gray-900 text-lg">{faq.question}</span>
-              <svg id={`icon-${faq.id}`} class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div id={`answer-${faq.id}`} class="hidden px-6 pb-5">
+            <div class="faq-answer hidden px-6 pb-5">
               <div class="pl-4 border-l-2 border-primary/30">
                 <p class="text-gray-600 leading-relaxed text-lg">{faq.answer}</p>
               </div>
@@ -127,28 +126,39 @@ const categories = [...new Set(faqs.map(f => f.category))];
     </div>
   </section>
 
-  <script>
-    function toggleFAQ(id) {
-      const answer = document.getElementById(`answer-${id}`);
-      const icon = document.getElementById(`icon-${id}`);
-      answer.classList.toggle('hidden');
-      icon.classList.toggle('rotate-180');
-    }
-
-    function filterFAQs(category) {
-      document.querySelectorAll('[id^="faq-"]').forEach(faq => {
-        if (category === 'all') {
-          faq.style.display = 'block';
-        } else {
-          const question = faq.querySelector('button span').textContent;
-          const faqItem = faqs.find(f => f.question === question);
-          if (faqItem && faqItem.category === category) {
-            faq.style.display = 'block';
-          } else {
-            faq.style.display = 'none';
-          }
-        }
+  <script is:inline>
+    // FAQ toggle
+    document.querySelectorAll('.faq-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-icon');
+        answer.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
       });
-    }
+    });
+
+    // FAQ filter
+    document.querySelectorAll('.faq-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+
+        // Update active button styles
+        document.querySelectorAll('.faq-filter-btn').forEach(b => {
+          b.className = b.className.replace('bg-primary text-white shadow-md', 'bg-white text-gray-700 border border-gray-200');
+          b.className = b.className.replace('bg-white border border-gray-200 text-gray-700', 'bg-white border border-gray-200 text-gray-700');
+        });
+        btn.className = 'faq-filter-btn bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md';
+
+        // Filter items
+        document.querySelectorAll('.faq-item').forEach(item => {
+          if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
   </script>
 </Layout>

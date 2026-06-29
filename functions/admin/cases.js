@@ -1,4 +1,4 @@
-export const onRequest: PagesFunction = async ({ env, request }) => {
+export const onRequest = async ({ env, request }) => {
   const db = env.DB;
   
   const authHeader = request.headers.get('Authorization');
@@ -20,13 +20,14 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
 
   try {
     switch (request.method) {
-      case 'GET':
+      case 'GET': {
         const results = await db.prepare(
           'SELECT * FROM cases ORDER BY completion_date DESC'
         ).all();
         return new Response(JSON.stringify(results.results), {
           headers: { 'Content-Type': 'application/json' }
         });
+      }
 
       case 'POST': {
         const body = await request.json();
@@ -91,7 +92,7 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
   }
 };
 
-async function verifyToken(token: string, secret: string): Promise<boolean> {
+async function verifyToken(token, secret) {
   try {
     const [header, payload, signature] = token.split('.');
     const encoder = new TextEncoder();
@@ -104,7 +105,7 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
       ['verify']
     );
     
-    const signatureBytes = new Uint8Array(signature.match(/.{2}/g)!.map(h => parseInt(h, 16)));
+    const signatureBytes = new Uint8Array(signature.match(/.{2}/g).map(h => parseInt(h, 16)));
     return await crypto.subtle.verify('HMAC', key, signatureBytes, data);
   } catch {
     return false;

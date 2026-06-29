@@ -1,4 +1,4 @@
-export const onRequest: PagesFunction = async ({ env, request }) => {
+export const onRequest = async ({ env, request }) => {
   const db = env.DB;
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');

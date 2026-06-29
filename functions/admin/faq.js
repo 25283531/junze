@@ -1,4 +1,4 @@
-export const onRequest: PagesFunction = async ({ env, request }) => {
+export const onRequest = async ({ env, request }) => {
   const db = env.DB;
   
   const authHeader = request.headers.get('Authorization');
@@ -20,30 +20,52 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
 
   try {
     switch (request.method) {
-      case 'GET':
-        const result = await db.prepare(
-          'SELECT * FROM business_info WHERE id = 1'
-        ).first();
-        if (result) {
-          result.service_areas = JSON.parse(result.service_areas);
-        }
-        return new Response(JSON.stringify(result), {
+      case 'GET': {
+        const results = await db.prepare(
+          'SELECT * FROM faq ORDER BY sort_order ASC'
+        ).all();
+        return new Response(JSON.stringify(results.results), {
           headers: { 'Content-Type': 'application/json' }
         });
+      }
+
+      case 'POST': {
+        const body = await request.json();
+        const result = await db.prepare(
+          'INSERT INTO faq (question, answer, category, sort_order) VALUES (?, ?, ?, ?)'
+        ).bind(
+          body.question,
+          body.answer,
+          body.category,
+          body.sort_order || 0
+        ).run();
+        return new Response(JSON.stringify({ success: true, id: result.lastInsertRowid }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
 
       case 'PUT': {
         const body = await request.json();
         const result = await db.prepare(
-          'UPDATE business_info SET name = ?, description = ?, telephone = ?, address = ?, service_areas = ?, license = ?, wechat = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1'
+          'UPDATE faq SET question = ?, answer = ?, category = ?, sort_order = ? WHERE id = ?'
         ).bind(
-          body.name,
-          body.description,
-          body.telephone,
-          body.address,
-          JSON.stringify(body.service_areas),
-          body.license,
-          body.wechat
+          body.question,
+          body.answer,
+          body.category,
+          body.sort_order || 0,
+          body.id
         ).run();
+        return new Response(JSON.stringify({ success: true, changes: result.changes }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      case 'DELETE': {
+        const url = new URL(request.url);
+        const id = url.searchParams.get('id');
+        const result = await db.prepare(
+          'DELETE FROM faq WHERE id = ?'
+        ).bind(id).run();
         return new Response(JSON.stringify({ success: true, changes: result.changes }), {
           headers: { 'Content-Type': 'application/json' }
         });
@@ -56,7 +78,7 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
         });
     }
   } catch (error) {
-    console.error('Admin settings error:', error);
+    console.error('Admin faq error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -64,7 +86,7 @@ export const onRequest: PagesFunction = async ({ env, request }) => {
   }
 };
 
-async function verifyToken(token: string, secret: string): Promise<boolean> {
+async function verifyToken(token, secret) {
   try {
     const [header, payload, signature] = token.split('.');
     const encoder = new TextEncoder();
@@ -77,7 +99,7 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
       ['verify']
     );
     
-    const signatureBytes = new Uint8Array(signature.match(/.{2}/g)!.map(h => parseInt(h, 16)));
+    const signatureBytes = new Uint8Array(signature.match(/.{2}/g).map(h => parseInt(h, 16)));
     return await crypto.subtle.verify('HMAC', key, signatureBytes, data);
   } catch {
     return false;
