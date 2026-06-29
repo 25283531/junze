@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/fix-css.mjs",
+    "build": "astro build",
     "preview": "astro preview",
     "deploy": "wrangler pages deploy dist"
   },
@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260629.1",
+    "@tailwindcss/vite": "^4.3.1",
     "@types/node": "^22.0.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.5.4",

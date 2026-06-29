@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://junze-anju.pages.dev',
@@ -10,15 +11,7 @@ export default defineConfig({
       },
     },
     plugins: [
-      {
-        name: 'remove-tailwind-utilities-directive',
-        enforce: 'post',
-        transform(code, id) {
-          if (id.endsWith('.css') && code.includes('@tailwind utilities')) {
-            return { code: code.replace(/@tailwind\s+utilities\s*;/g, ''), map: null };
-          }
-        },
-      },
+      tailwindcss(),
     ],
   },
 });
