@@ -1,11 +1,22 @@
+const CORS_HEADERS = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
 export const onRequest = async ({ env, request }) => {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const db = env.DB;
   
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 
@@ -14,7 +25,7 @@ export const onRequest = async ({ env, request }) => {
   if (!isValid) {
     return new Response(JSON.stringify({ error: 'Invalid token' }), {
       status: 401,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 
@@ -25,7 +36,7 @@ export const onRequest = async ({ env, request }) => {
           'SELECT * FROM faq ORDER BY sort_order ASC'
         ).all();
         return new Response(JSON.stringify(results.results), {
-          headers: { 'Content-Type': 'application/json' }
+          headers: CORS_HEADERS
         });
       }
 
@@ -40,7 +51,7 @@ export const onRequest = async ({ env, request }) => {
           body.sort_order || 0
         ).run();
         return new Response(JSON.stringify({ success: true, id: result.lastInsertRowid }), {
-          headers: { 'Content-Type': 'application/json' }
+          headers: CORS_HEADERS
         });
       }
 
@@ -56,7 +67,7 @@ export const onRequest = async ({ env, request }) => {
           body.id
         ).run();
         return new Response(JSON.stringify({ success: true, changes: result.changes }), {
-          headers: { 'Content-Type': 'application/json' }
+          headers: CORS_HEADERS
         });
       }
 
@@ -67,21 +78,21 @@ export const onRequest = async ({ env, request }) => {
           'DELETE FROM faq WHERE id = ?'
         ).bind(id).run();
         return new Response(JSON.stringify({ success: true, changes: result.changes }), {
-          headers: { 'Content-Type': 'application/json' }
+          headers: CORS_HEADERS
         });
       }
 
       default:
         return new Response(JSON.stringify({ error: 'Method not allowed' }), {
           status: 405,
-          headers: { 'Content-Type': 'application/json' }
+          headers: CORS_HEADERS
         });
     }
   } catch (error) {
     console.error('Admin faq error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 };

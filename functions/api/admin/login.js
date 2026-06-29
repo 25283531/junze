@@ -1,10 +1,21 @@
+const CORS_HEADERS = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
 export const onRequest = async ({ env, request }) => {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
   const db = env.DB;
   
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 
@@ -18,27 +29,27 @@ export const onRequest = async ({ env, request }) => {
     if (!user) {
       return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
         status: 401,
-        headers: { 'Content-Type': 'application/json' }
+        headers: CORS_HEADERS
       });
     }
 
     if (password !== 'admin123') {
       return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
         status: 401,
-        headers: { 'Content-Type': 'application/json' }
+        headers: CORS_HEADERS
       });
     }
 
     const token = await generateToken(username, env.JWT_SECRET);
     
     return new Response(JSON.stringify({ success: true, token }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   } catch (error) {
     console.error('Login error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 };
