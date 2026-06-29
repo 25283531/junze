@@ -8,14 +8,56 @@
   --font-sans: 'Noto Sans SC', system-ui, sans-serif;
 }
 
+@layer utilities {
+  .bg-primary {
+    background-color: #2563eb;
+  }
+  .bg-primary-dark {
+    background-color: #1d4ed8;
+  }
+  .bg-secondary {
+    background-color: #10b981;
+  }
+  .bg-accent {
+    background-color: #f59e0b;
+  }
+  .text-primary {
+    color: #2563eb;
+  }
+  .text-primary-dark {
+    color: #1d4ed8;
+  }
+  .text-secondary {
+    color: #10b981;
+  }
+  .text-accent {
+    color: #f59e0b;
+  }
+  .hover\:bg-primary:hover {
+    background-color: #2563eb;
+  }
+  .hover\:bg-primary-dark:hover {
+    background-color: #1d4ed8;
+  }
+  .hover\:text-primary:hover {
+    color: #2563eb;
+  }
+  .hover\:text-primary-dark:hover {
+    color: #1d4ed8;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: rgb(249 250 251);
-  color: rgb(17 24 39);
+  background-color: #f9fafb;
+  color: #111827;
   line-height: 1.6;
   margin: 0;
   padding: 0;
@@ -27,16 +69,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--color-primary);
+  color: #2563eb;
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--color-primary-dark);
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  color: #1d4ed8;
 }
