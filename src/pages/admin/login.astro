@@ -7,37 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            animation: {
-              'fade-in': 'fadeIn 0.6s ease-out',
-              'slide-up': 'slideUp 0.5s ease-out',
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              slideUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-10px)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
+    <link rel="stylesheet" href="/styles/global.css" />
     <style>
       body {
         font-family: 'Noto Sans SC', system-ui, sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+        min-height: 100vh;
+        display: flex;
       }
       .glass {
         background: rgba(255, 255, 255, 0.12);
@@ -71,9 +47,30 @@
         width: 300px;
         height: 300px;
       }
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      @keyframes slideUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+      .animate-slide-up {
+        animation: slideUp 0.5s ease-out;
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
     </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex">
+  <body>
 
     <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
       <div class="absolute inset-0">
