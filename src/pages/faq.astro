@@ -70,7 +70,7 @@ const categories = [...new Set(faqs.map(f => f.category))];
 
       <div class="flex flex-wrap justify-center gap-3 mb-10" id="faq-filters">
         <button
-          class="faq-filter-btn bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md"
+          class="faq-filter-btn bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md"
           data-category="all"
         >
           全部
@@ -145,10 +145,10 @@ const categories = [...new Set(faqs.map(f => f.category))];
 
         // Reset all buttons to inactive style
         document.querySelectorAll('.faq-filter-btn').forEach(b => {
-          b.className = 'faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300';
+          b.className = 'faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300';
         });
         // Set clicked button to active style
-        btn.className = 'faq-filter-btn bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-all duration-300 shadow-md';
+        btn.className = 'faq-filter-btn bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md';
 
         // Filter items
         document.querySelectorAll('.faq-item').forEach(item => {

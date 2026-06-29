@@ -1,4 +1,4 @@
-import"./AdminLayout.astro_astro_type_script_index_1_lang.4l-uxx_t.js";import"https://cdn.tailwindcss.com";async function d(){const n=localStorage.getItem("token"),a=await(await fetch("/admin/faq",{headers:{Authorization:`Bearer ${n}`}})).json(),t=document.getElementById("faqTable");t.innerHTML=a.map(e=>`
+import"./AdminLayout.astro_astro_type_script_index_1_lang.4l-uxx_t.js";import"https://cdn.tailwindcss.com";async function d(){const n=localStorage.getItem("token"),a=await(await fetch("/api/admin/faq",{headers:{Authorization:`Bearer ${n}`}})).json(),t=document.getElementById("faqTable");t.innerHTML=a.map(e=>`
         <tr class="border-b border-gray-100">
           <td class="px-4 py-3">${e.id}</td>
           <td class="px-4 py-3 max-w-xs truncate">${e.question}</td>

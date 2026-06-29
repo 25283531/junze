@@ -1,4 +1,4 @@
-import"./AdminLayout.astro_astro_type_script_index_1_lang.4l-uxx_t.js";import"https://cdn.tailwindcss.com";async function s(){const n=localStorage.getItem("token"),o=await(await fetch("/admin/services",{headers:{Authorization:`Bearer ${n}`}})).json(),t=document.getElementById("servicesTable");t.innerHTML=o.map(e=>`
+import"./AdminLayout.astro_astro_type_script_index_1_lang.4l-uxx_t.js";import"https://cdn.tailwindcss.com";async function s(){const n=localStorage.getItem("token"),o=await(await fetch("/api/admin/services",{headers:{Authorization:`Bearer ${n}`}})).json(),t=document.getElementById("servicesTable");t.innerHTML=o.map(e=>`
         <tr class="border-b border-gray-100">
           <td class="px-4 py-3">${e.id}</td>
           <td class="px-4 py-3">${e.title}</td>

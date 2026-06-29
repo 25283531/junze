@@ -66,7 +66,7 @@ import AdminLayout from '@/components/AdminLayout.astro';
   <script>
     async function loadSettings() {
       const token = localStorage.getItem('token');
-      const response = await fetch('/admin/settings', {
+      const response = await fetch('/api/admin/settings', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const settings = await response.json();
@@ -103,7 +103,7 @@ import AdminLayout from '@/components/AdminLayout.astro';
         service_promises: document.getElementById('businessPromises').value
       };
       
-      const response = await fetch('/admin/settings', {
+      const response = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

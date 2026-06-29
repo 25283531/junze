@@ -79,7 +79,7 @@ import AdminLayout from '@/components/AdminLayout.astro';
   <script>
     async function loadCases() {
       const token = localStorage.getItem('token');
-      const response = await fetch('/admin/cases', {
+      const response = await fetch('/api/admin/cases', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const cases = await response.json();
@@ -113,7 +113,7 @@ import AdminLayout from '@/components/AdminLayout.astro';
     
     async function editCase(id) {
       const token = localStorage.getItem('token');
-      const response = await fetch('/admin/cases', {
+      const response = await fetch('/api/admin/cases', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const cases = await response.json();
