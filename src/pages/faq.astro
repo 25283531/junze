@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 
-const faqs = [
+const defaultFaqs = [
   { id: 1, question: '平顶山钧泽安居的适老化改造包含哪些项目？', answer: '包含地面防滑处理、卫生间安全扶手安装、走廊扶手安装、床边扶手安装、无障碍通道改造、毫米波雷达跌倒检测系统部署、智能感应灯光安装、紧急呼叫系统安装等项目。我们会根据老人的具体情况制定个性化改造方案。', category: '适老化改造' },
   { id: 2, question: '平顶山老房水电改造怎么收费？', answer: '水电改造收费包括上门服务费和材料费用。上门服务费一般 50-100 元，材料费用根据实际使用的管材、电线、开关插座等计算。我们会在施工前提供详细的报价单，确保透明收费。', category: '水电维修' },
   { id: 3, question: '家政保洁服务包含哪些内容？', answer: '我们的家政保洁服务包含日常保洁、深度保洁、新居开荒等。日常保洁包括客厅、卧室、厨房、卫生间的全面清洁；深度保洁增加家电清洗、窗帘清洗、地毯清洗等项目；新居开荒针对新房装修后的彻底清洁。', category: '家政服务' },
@@ -12,7 +12,7 @@ const faqs = [
   { id: 8, question: '服务后有质量保证吗？', answer: '有的。我们对所有服务提供质量保证。水电维修提供3个月质保，改造工程提供1年质保，保洁服务提供7天内不满意免费返工。如有任何问题，请及时联系我们。', category: '售后服务' },
 ];
 
-const categories = [...new Set(faqs.map(f => f.category))];
+const defaultCategories = [...new Set(defaultFaqs.map(f => f.category))];
 ---
 
 <Layout title="常见问题 - 钧泽安居" description="钧泽安居常见问题解答，涵盖适老化改造、水电维修、家政服务、智能家居等服务相关问题" keywords="平顶山家居服务常见问题,适老化改造问答,水电维修问答">
@@ -75,10 +75,10 @@ const categories = [...new Set(faqs.map(f => f.category))];
         >
           全部
         </button>
-        {categories.map(category => (
+        {defaultCategories.map(category => (
           <button
             key={category}
-            class="faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+            class="faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
             data-category={category}
           >
             {category}
@@ -87,7 +87,7 @@ const categories = [...new Set(faqs.map(f => f.category))];
       </div>
 
       <div class="space-y-4" id="faq-list">
-        {faqs.map(faq => (
+        {defaultFaqs.map(faq => (
           <div key={faq.id} class="faq-item bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md" data-category={faq.category}>
             <button
               class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
@@ -127,38 +127,95 @@ const categories = [...new Set(faqs.map(f => f.category))];
   </section>
 
   <script is:inline>
-    // FAQ toggle
-    document.querySelectorAll('.faq-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        const answer = item.querySelector('.faq-answer');
-        const icon = item.querySelector('.faq-icon');
-        answer.classList.toggle('hidden');
-        icon.classList.toggle('rotate-180');
-      });
-    });
+    async function loadFaqData() {
+      try {
+        const response = await fetch('/api/faq');
+        const faqs = await response.json();
 
-    // FAQ filter
-    document.querySelectorAll('.faq-filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.dataset.category;
+        if (faqs && faqs.length > 0) {
+          const categories = [...new Set(faqs.map(f => f.category))];
+          
+          const filtersContainer = document.getElementById('faq-filters');
+          const listContainer = document.getElementById('faq-list');
 
-        // Reset all buttons to inactive style
-        document.querySelectorAll('.faq-filter-btn').forEach(b => {
-          b.className = 'faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300';
-        });
-        // Set clicked button to active style
-        btn.className = 'faq-filter-btn bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md';
-
-        // Filter items
-        document.querySelectorAll('.faq-item').forEach(item => {
-          if (category === 'all' || item.dataset.category === category) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
+          if (filtersContainer) {
+            filtersContainer.innerHTML = `
+              <button
+                class="faq-filter-btn bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md"
+                data-category="all"
+              >
+                全部
+              </button>
+              ${categories.map(category => `
+                <button
+                  class="faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
+                  data-category="${category}"
+                >
+                  ${category}
+                </button>
+              `).join('')}
+            `;
           }
+
+          if (listContainer) {
+            listContainer.innerHTML = faqs
+              .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+              .map(faq => `
+                <div class="faq-item bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md" data-category="${faq.category}">
+                  <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900 text-lg">${faq.question}</span>
+                    <svg class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                  <div class="faq-answer hidden px-6 pb-5">
+                    <div class="pl-4 border-l-2 border-primary/30">
+                      <p class="text-gray-600 leading-relaxed text-lg">${faq.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              `).join('');
+          }
+
+          initFaqEvents();
+        }
+      } catch (error) {
+        console.error('Failed to load FAQ data:', error);
+        initFaqEvents();
+      }
+    }
+
+    function initFaqEvents() {
+      document.querySelectorAll('.faq-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const answer = item.querySelector('.faq-answer');
+          const icon = item.querySelector('.faq-icon');
+          answer.classList.toggle('hidden');
+          icon.classList.toggle('rotate-180');
         });
       });
-    });
+
+      document.querySelectorAll('.faq-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const category = btn.dataset.category;
+
+          document.querySelectorAll('.faq-filter-btn').forEach(b => {
+            b.className = 'faq-filter-btn bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300';
+          });
+          btn.className = 'faq-filter-btn bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md';
+
+          document.querySelectorAll('.faq-item').forEach(item => {
+            if (category === 'all' || item.dataset.category === category) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFaqData);
   </script>
 </Layout>

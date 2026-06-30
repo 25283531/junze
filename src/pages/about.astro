@@ -46,7 +46,7 @@ import Layout from '@/layouts/Layout.astro';
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">关于钧泽安居</h1>
-          <div class="space-y-4">
+          <div class="space-y-4" id="aboutDescription">
             <p class="text-gray-600 leading-relaxed text-lg">
               钧泽安居是河南平顶山本地专业的家居服务平台，致力于为平顶山市民提供优质、专业、便捷的家居服务。我们拥有经验丰富的专业服务团队，所有人员均经过严格培训和认证，确保服务质量。
             </p>
@@ -87,7 +87,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/80 mb-1">服务热线</div>
-                <a href="tel:0375-8888888" class="text-xl font-bold text-white hover:underline">0375-8888888</a>
+                <a id="aboutTelLink" href="tel:0375-8888888" class="text-xl font-bold text-white hover:underline">0375-8888888</a>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -99,7 +99,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/60 mb-1">服务地址</div>
-                <div class="text-lg">平顶山市湛河区建设路东段</div>
+                <div id="aboutAddress" class="text-lg">平顶山市湛河区建设路东段</div>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -110,7 +110,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/60 mb-1">微信</div>
-                <div class="text-lg">junze-anju</div>
+                <div id="aboutWechat" class="text-lg">junze-anju</div>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -230,28 +230,66 @@ import Layout from '@/layouts/Layout.astro';
     </div>
   </section>
 
-  <script>
-    async function loadLicenseImage() {
+  <script is:inline>
+    async function loadAboutData() {
       try {
         const response = await fetch('/api/business');
         const data = await response.json();
-        
-        if (data && data.license_image_key) {
-          const licensePlaceholder = document.getElementById('licensePlaceholder');
-          const licenseImageWrapper = document.getElementById('licenseImageWrapper');
-          const licenseImage = document.getElementById('licenseImage');
-          
-          licensePlaceholder.classList.add('hidden');
-          licenseImageWrapper.classList.remove('hidden');
-          licenseImage.src = `/api/admin/get-image?key=${data.license_image_key}`;
+
+        if (data) {
+          if (data.description) {
+            const aboutDescription = document.getElementById('aboutDescription');
+            if (aboutDescription) {
+              aboutDescription.innerHTML = `<p class="text-gray-600 leading-relaxed text-lg">${data.description}</p>`;
+            }
+          }
+
+          if (data.telephone) {
+            const telLink = document.getElementById('aboutTelLink');
+            if (telLink) {
+              telLink.href = `tel:${data.telephone}`;
+              telLink.textContent = data.telephone;
+            }
+          }
+
+          if (data.address) {
+            const addressDiv = document.getElementById('aboutAddress');
+            if (addressDiv) {
+              addressDiv.textContent = data.address;
+            }
+          }
+
+          if (data.wechat) {
+            const wechatDiv = document.getElementById('aboutWechat');
+            if (wechatDiv) {
+              wechatDiv.textContent = data.wechat;
+            }
+          }
+
+          if (data.license_image_key) {
+            const licensePlaceholder = document.getElementById('licensePlaceholder');
+            const licenseImageWrapper = document.getElementById('licenseImageWrapper');
+            const licenseImage = document.getElementById('licenseImage');
+            
+            licensePlaceholder.classList.add('hidden');
+            licenseImageWrapper.classList.remove('hidden');
+            licenseImage.src = `/api/admin/get-image?key=${data.license_image_key}`;
+          }
+
+          if (data.license) {
+            const licenseText = document.querySelector('#licenseContainer p.text-gray-600');
+            if (licenseText) {
+              licenseText.textContent = data.license;
+            }
+          }
         }
       } catch (error) {
-        console.error('Failed to load license image:', error);
+        console.error('Failed to load about data:', error);
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      loadLicenseImage();
+      loadAboutData();
       
       const licenseImage = document.getElementById('licenseImage');
       if (licenseImage) {
