@@ -1,0 +1,91 @@
+2026-06-30T08:33:25.737405Z	Cloning repository...
+2026-06-30T08:33:26.497576Z	From https://github.com/25283531/junze
+2026-06-30T08:33:26.497892Z	 * branch            e639c5af74777ab3311f52905789ddf9357f6a37 -> FETCH_HEAD
+2026-06-30T08:33:26.497965Z	
+2026-06-30T08:33:26.523891Z	HEAD is now at e639c5a chore: 初始化SSR版本项目，配置Cloudflare Pages部署
+2026-06-30T08:33:26.524113Z	
+2026-06-30T08:33:26.561039Z	
+2026-06-30T08:33:26.561314Z	Using v2 root directory strategy
+2026-06-30T08:33:26.573149Z	Success: Finished cloning repository files
+2026-06-30T08:33:28.310368Z	Checking for configuration in a Wrangler configuration file (BETA)
+2026-06-30T08:33:28.310707Z	
+2026-06-30T08:33:28.311068Z	Found wrangler.toml file. Reading build configuration...
+2026-06-30T08:33:28.460114Z	A Wrangler configuration file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2026-06-30T08:33:28.711217Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2026-06-30T08:33:28.712439Z	Installing project dependencies: npm clean-install --progress=false
+2026-06-30T08:33:32.261146Z	npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+2026-06-30T08:33:32.262007Z	npm warn deprecated rollup-plugin-inject@3.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+2026-06-30T08:33:32.398206Z	npm warn deprecated tsconfck@3.1.6: unmaintained
+2026-06-30T08:33:41.558468Z	
+2026-06-30T08:33:41.558731Z	added 413 packages, and audited 414 packages in 11s
+2026-06-30T08:33:41.55879Z	
+2026-06-30T08:33:41.558831Z	164 packages are looking for funding
+2026-06-30T08:33:41.558888Z	  run `npm fund` for details
+2026-06-30T08:33:41.642216Z	
+2026-06-30T08:33:41.642596Z	8 vulnerabilities (4 moderate, 4 high)
+2026-06-30T08:33:41.642889Z	
+2026-06-30T08:33:41.64296Z	To address all issues (including breaking changes), run:
+2026-06-30T08:33:41.643005Z	  npm audit fix --force
+2026-06-30T08:33:41.643045Z	
+2026-06-30T08:33:41.643085Z	Run `npm audit` for details.
+2026-06-30T08:33:41.701324Z	Executing user command: npm run build
+2026-06-30T08:33:41.952506Z	
+2026-06-30T08:33:41.952764Z	> junze-anju@1.0.0 build
+2026-06-30T08:33:41.952831Z	> astro build && node scripts/copy-functions.mjs
+2026-06-30T08:33:41.952872Z	
+2026-06-30T08:33:43.256909Z	08:33:43 [WARN] [@astrojs/cloudflare] The current configuration does not support image optimization. To allow your project to build with the original, unoptimized images, the image service has been automatically switched to the 'noop' option. See https://docs.astro.build/en/reference/configuration-reference/#imageservice
+2026-06-30T08:33:43.322467Z	08:33:43 [types] Generated 52ms
+2026-06-30T08:33:43.322771Z	08:33:43 [build] output: "server"
+2026-06-30T08:33:43.323015Z	08:33:43 [build] directory: /opt/buildhome/repo/dist/
+2026-06-30T08:33:43.323113Z	08:33:43 [build] adapter: @astrojs/cloudflare
+2026-06-30T08:33:43.323168Z	08:33:43 [build] Collecting build info...
+2026-06-30T08:33:43.323233Z	08:33:43 [build] ✓ Completed in 68ms.
+2026-06-30T08:33:43.330506Z	08:33:43 [build] Building server entrypoints...
+2026-06-30T08:33:43.949525Z	08:33:43 [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/services/[slug].astro. Add `export const prerender = true;` to prerender the page as static HTML during the build process.
+2026-06-30T08:33:44.480989Z	08:33:44 [vite] [32m✓ built in 1.10s[39m
+2026-06-30T08:33:44.481336Z	08:33:44 [build] ✓ Completed in 1.15s.
+2026-06-30T08:33:44.481698Z	
+2026-06-30T08:33:44.481782Z	 building client (vite) 
+2026-06-30T08:33:44.485906Z	08:33:44 [vite] transforming...
+2026-06-30T08:33:44.493811Z	08:33:44 [vite] [32m✓[39m 6 modules transformed.
+2026-06-30T08:33:44.497129Z	08:33:44 [vite] rendering chunks...
+2026-06-30T08:33:44.498081Z	Generated an empty chunk: "hoisted".
+2026-06-30T08:33:44.4991Z	Generated an empty chunk: "hoisted".
+2026-06-30T08:33:44.502378Z	08:33:44 [vite] [32m✓ built in 19ms[39m
+2026-06-30T08:33:44.523918Z	08:33:44 [build] Rearranging server assets...
+2026-06-30T08:33:44.581478Z	08:33:44 [build] Server built in 1.33s
+2026-06-30T08:33:44.581874Z	08:33:44 [build] Complete!
+2026-06-30T08:33:44.646491Z	Created dist/functions/api/admin/
+2026-06-30T08:33:44.646732Z	Copied functions/api/admin/settings.js to dist/functions/api/admin/settings.js
+2026-06-30T08:33:44.64689Z	Copied functions/api/admin/services.js to dist/functions/api/admin/services.js
+2026-06-30T08:33:44.646993Z	Copied functions/api/admin/faq.js to dist/functions/api/admin/faq.js
+2026-06-30T08:33:44.647049Z	Copied functions/api/admin/cases.js to dist/functions/api/admin/cases.js
+2026-06-30T08:33:44.647411Z	Copied functions/api/admin/login.js to dist/functions/api/admin/login.js
+2026-06-30T08:33:44.650283Z	Copied functions/api/admin/upload.js to dist/functions/api/admin/upload.js
+2026-06-30T08:33:44.650391Z	Copied functions/api/admin/get-image.js to dist/functions/api/admin/get-image.js
+2026-06-30T08:33:44.650462Z	Copied functions/api/business.js to dist/functions/api/business.js
+2026-06-30T08:33:44.650508Z	Copied functions/api/services.js to dist/functions/api/services.js
+2026-06-30T08:33:44.650538Z	Copied functions/api/cases.js to dist/functions/api/cases.js
+2026-06-30T08:33:44.650566Z	Copied functions/api/faq.js to dist/functions/api/faq.js
+2026-06-30T08:33:44.650594Z	Copied about.mAqcn6Xe.css to dist/styles/global.css
+2026-06-30T08:33:44.650623Z	Functions copy complete!
+2026-06-30T08:33:44.667073Z	Finished
+2026-06-30T08:33:45.182571Z	Checking for configuration in a Wrangler configuration file (BETA)
+2026-06-30T08:33:45.182986Z	
+2026-06-30T08:33:45.183061Z	Found wrangler.toml file. Reading build configuration...
+2026-06-30T08:33:45.294676Z	A Wrangler configuration file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2026-06-30T08:33:45.295134Z	Found _worker.js in output directory. Uploading.
+2026-06-30T08:33:45.298978Z	 ⛅️ wrangler 3.114.17
+2026-06-30T08:33:45.299085Z	-------------------
+2026-06-30T08:33:46.454518Z	✨ Compiled Worker successfully
+2026-06-30T08:33:46.538955Z	Found _routes.json in output directory. Uploading.
+2026-06-30T08:33:47.210495Z	Validating asset output directory
+2026-06-30T08:33:48.308402Z	Deploying your site to Cloudflare's global network...
+2026-06-30T08:33:50.358446Z	Uploading... (2/4)
+2026-06-30T08:33:51.148342Z	Uploading... (3/4)
+2026-06-30T08:33:51.508266Z	Uploading... (4/4)
+2026-06-30T08:33:51.508635Z	✨ Success! Uploaded 2 files (2 already uploaded) (1.45 sec)
+2026-06-30T08:33:51.50877Z	
+2026-06-30T08:33:51.850457Z	✨ Upload complete!
+2026-06-30T08:33:53.303381Z	Success: Assets published!
+2026-06-30T08:33:55.559797Z	Success: Your site was deployed!

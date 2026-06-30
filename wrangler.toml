@@ -1,15 +1,12 @@
 name = "junze-anju"
 compatibility_date = "2025-01-01"
-
-[build]
-command = "npm run build"
-publish_directory = "dist"
+pages_build_output_dir = "dist"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "junze-anju-db"
-database_id = "junze-anju-db"
+database_id = "f5f5ba7d-c5d4-4d62-9658-69a8c2b2bacb
 
 [[kv_namespaces]]
 binding = "KV"
-id = "8a98f7fefdad4cc9970b322d882f3c05"
+id = "8a98f7fefdad4cc9970b322d882f3c05
