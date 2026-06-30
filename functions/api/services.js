@@ -3,6 +3,13 @@ export const onRequest = async ({ env, request }) => {
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');
 
+  if (!db) {
+    return new Response(JSON.stringify({ error: 'D1 database binding "DB" is not configured.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
     if (slug) {
       const result = await db.prepare(
@@ -27,7 +34,7 @@ export const onRequest = async ({ env, request }) => {
     }
   } catch (error) {
     console.error('Error fetching services:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

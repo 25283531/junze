@@ -3,6 +3,14 @@ export const onRequest = async ({ env, request }) => {
   const url = new URL(request.url);
   const category = url.searchParams.get('category');
 
+  // Debug: check if DB binding exists
+  if (!db) {
+    return new Response(JSON.stringify({ error: 'D1 database binding "DB" is not configured. Please bind D1 database in Cloudflare Pages settings.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
     let query = 'SELECT * FROM faq ORDER BY sort_order ASC';
     const params = [];
@@ -18,7 +26,7 @@ export const onRequest = async ({ env, request }) => {
     });
   } catch (error) {
     console.error('Error fetching faq:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

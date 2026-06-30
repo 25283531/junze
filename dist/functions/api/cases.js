@@ -1,6 +1,13 @@
 export const onRequest = async ({ env, request }) => {
   const db = env.DB;
 
+  if (!db) {
+    return new Response(JSON.stringify({ error: 'D1 database binding "DB" is not configured.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
     const results = await db.prepare(
       'SELECT * FROM cases ORDER BY completion_date DESC'
@@ -10,7 +17,7 @@ export const onRequest = async ({ env, request }) => {
     });
   } catch (error) {
     console.error('Error fetching cases:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

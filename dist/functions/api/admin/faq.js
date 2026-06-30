@@ -29,6 +29,13 @@ export const onRequest = async ({ env, request }) => {
     });
   }
 
+  if (!db) {
+    return new Response(JSON.stringify({ error: 'D1 database binding "DB" is not configured.' }), {
+      status: 500,
+      headers: CORS_HEADERS
+    });
+  }
+
   try {
     switch (request.method) {
       case 'GET': {
@@ -90,7 +97,7 @@ export const onRequest = async ({ env, request }) => {
     }
   } catch (error) {
     console.error('Admin faq error:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: CORS_HEADERS
     });
