@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import { getAllFaq, getBusinessInfo } from '@/lib/db.js';
 
-const env = Astro.locals.env;
+const env = Astro.locals.runtime.env;
 const faqs = await getAllFaq(env);
 const business = await getBusinessInfo(env);
 const telephone = business?.telephone || '0375-8888888';

@@ -1,0 +1,93 @@
+2026-06-30T13:23:15.392165Z	Cloning repository...
+2026-06-30T13:23:16.079723Z	From https://github.com/25283531/junze
+2026-06-30T13:23:16.080023Z	 * branch            aa787f1833ab84a183e8a34ba379590e3ef468a5 -> FETCH_HEAD
+2026-06-30T13:23:16.080091Z	
+2026-06-30T13:23:16.106143Z	HEAD is now at aa787f1 docs: 更新部署文档和配置文件
+2026-06-30T13:23:16.106449Z	
+2026-06-30T13:23:16.224891Z	
+2026-06-30T13:23:16.225386Z	Using v2 root directory strategy
+2026-06-30T13:23:16.238209Z	Success: Finished cloning repository files
+2026-06-30T13:23:17.881327Z	Checking for configuration in a Wrangler configuration file (BETA)
+2026-06-30T13:23:17.881794Z	
+2026-06-30T13:23:17.882349Z	Found wrangler.toml file. Reading build configuration...
+2026-06-30T13:23:17.889838Z	pages_build_output_dir: dist
+2026-06-30T13:23:17.89005Z	Build environment variables: (none found)
+2026-06-30T13:23:18.066436Z	Successfully read the Wrangler configuration file.
+2026-06-30T13:23:18.378792Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2026-06-30T13:23:18.379238Z	Installing project dependencies: npm clean-install --progress=false
+2026-06-30T13:23:22.19899Z	npm warn deprecated rollup-plugin-inject@3.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+2026-06-30T13:23:22.421902Z	npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+2026-06-30T13:23:23.081518Z	npm warn deprecated tsconfck@3.1.6: unmaintained
+2026-06-30T13:23:32.701596Z	
+2026-06-30T13:23:32.701852Z	added 413 packages, and audited 414 packages in 13s
+2026-06-30T13:23:32.703104Z	
+2026-06-30T13:23:32.703213Z	164 packages are looking for funding
+2026-06-30T13:23:32.703286Z	  run `npm fund` for details
+2026-06-30T13:23:32.805142Z	
+2026-06-30T13:23:32.805487Z	8 vulnerabilities (4 moderate, 4 high)
+2026-06-30T13:23:32.805625Z	
+2026-06-30T13:23:32.805699Z	To address all issues (including breaking changes), run:
+2026-06-30T13:23:32.805753Z	  npm audit fix --force
+2026-06-30T13:23:32.805804Z	
+2026-06-30T13:23:32.805862Z	Run `npm audit` for details.
+2026-06-30T13:23:32.877254Z	Executing user command: npm run build
+2026-06-30T13:23:33.173551Z	
+2026-06-30T13:23:33.173792Z	> junze-anju@1.0.0 build
+2026-06-30T13:23:33.173845Z	> astro build && node scripts/copy-functions.mjs
+2026-06-30T13:23:33.174229Z	
+2026-06-30T13:23:34.340423Z	13:23:34 [WARN] [@astrojs/cloudflare] The current configuration does not support image optimization. To allow your project to build with the original, unoptimized images, the image service has been automatically switched to the 'noop' option. See https://docs.astro.build/en/reference/configuration-reference/#imageservice
+2026-06-30T13:23:34.39979Z	13:23:34 [types] Generated 49ms
+2026-06-30T13:23:34.400156Z	13:23:34 [build] output: "server"
+2026-06-30T13:23:34.400348Z	13:23:34 [build] directory: /opt/buildhome/repo/dist/
+2026-06-30T13:23:34.400478Z	13:23:34 [build] adapter: @astrojs/cloudflare
+2026-06-30T13:23:34.400666Z	13:23:34 [build] Collecting build info...
+2026-06-30T13:23:34.400848Z	13:23:34 [build] ✓ Completed in 61ms.
+2026-06-30T13:23:34.408669Z	13:23:34 [build] Building server entrypoints...
+2026-06-30T13:23:35.038589Z	13:23:35 [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/services/[slug].astro. Add `export const prerender = true;` to prerender the page as static HTML during the build process.
+2026-06-30T13:23:35.557839Z	13:23:35 [vite] [32m✓ built in 1.12s[39m
+2026-06-30T13:23:35.558283Z	13:23:35 [build] ✓ Completed in 1.15s.
+2026-06-30T13:23:35.558627Z	
+2026-06-30T13:23:35.558747Z	 building client (vite) 
+2026-06-30T13:23:35.564784Z	13:23:35 [vite] transforming...
+2026-06-30T13:23:35.57688Z	13:23:35 [vite] [32m✓[39m 6 modules transformed.
+2026-06-30T13:23:35.580557Z	Generated an empty chunk: "hoisted".
+2026-06-30T13:23:35.581007Z	Generated an empty chunk: "hoisted".
+2026-06-30T13:23:35.581989Z	13:23:35 [vite] rendering chunks...
+2026-06-30T13:23:35.587032Z	13:23:35 [vite] [32m✓ built in 25ms[39m
+2026-06-30T13:23:35.609389Z	13:23:35 [build] Rearranging server assets...
+2026-06-30T13:23:35.666743Z	13:23:35 [build] Server built in 1.33s
+2026-06-30T13:23:35.667118Z	13:23:35 [build] Complete!
+2026-06-30T13:23:35.741715Z	Created dist/functions/api/admin/
+2026-06-30T13:23:35.742369Z	Copied functions/api/admin/settings.js to dist/functions/api/admin/settings.js
+2026-06-30T13:23:35.742461Z	Copied functions/api/admin/services.js to dist/functions/api/admin/services.js
+2026-06-30T13:23:35.742542Z	Copied functions/api/admin/faq.js to dist/functions/api/admin/faq.js
+2026-06-30T13:23:35.742619Z	Copied functions/api/admin/cases.js to dist/functions/api/admin/cases.js
+2026-06-30T13:23:35.742696Z	Copied functions/api/admin/login.js to dist/functions/api/admin/login.js
+2026-06-30T13:23:35.742763Z	Copied functions/api/admin/upload.js to dist/functions/api/admin/upload.js
+2026-06-30T13:23:35.744056Z	Copied functions/api/admin/get-image.js to dist/functions/api/admin/get-image.js
+2026-06-30T13:23:35.744277Z	Copied functions/api/business.js to dist/functions/api/business.js
+2026-06-30T13:23:35.74438Z	Copied functions/api/services.js to dist/functions/api/services.js
+2026-06-30T13:23:35.744472Z	Copied functions/api/cases.js to dist/functions/api/cases.js
+2026-06-30T13:23:35.744559Z	Copied functions/api/faq.js to dist/functions/api/faq.js
+2026-06-30T13:23:35.744619Z	Copied about.mAqcn6Xe.css to dist/styles/global.css
+2026-06-30T13:23:35.744717Z	Functions copy complete!
+2026-06-30T13:23:35.76501Z	Finished
+2026-06-30T13:23:36.425916Z	Checking for configuration in a Wrangler configuration file (BETA)
+2026-06-30T13:23:36.426475Z	
+2026-06-30T13:23:36.428308Z	Found wrangler.toml file. Reading build configuration...
+2026-06-30T13:23:36.433257Z	pages_build_output_dir: dist
+2026-06-30T13:23:36.433406Z	Build environment variables: (none found)
+2026-06-30T13:23:36.591183Z	Successfully read the Wrangler configuration file.
+2026-06-30T13:23:36.591942Z	Found _worker.js in output directory. Uploading.
+2026-06-30T13:23:36.597091Z	 ⛅️ wrangler 3.114.17
+2026-06-30T13:23:36.597259Z	-------------------
+2026-06-30T13:23:37.253801Z	✨ Compiled Worker successfully
+2026-06-30T13:23:37.365301Z	Found _routes.json in output directory. Uploading.
+2026-06-30T13:23:37.374928Z	Validating asset output directory
+2026-06-30T13:23:38.632533Z	Deploying your site to Cloudflare's global network...
+2026-06-30T13:23:42.532906Z	Uploading... (4/4)
+2026-06-30T13:23:42.53367Z	✨ Success! Uploaded 0 files (4 already uploaded) (0.30 sec)
+2026-06-30T13:23:42.533784Z	
+2026-06-30T13:23:42.996436Z	✨ Upload complete!
+2026-06-30T13:23:44.554252Z	Success: Assets published!
+2026-06-30T13:23:46.591887Z	Success: Your site was deployed!
