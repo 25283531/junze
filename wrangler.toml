@@ -2,6 +2,10 @@ name = "junze-anju"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "dist"
 
+[vars]
+JWT_SECRET = "junze-anju-secret-key-2026"
+ADMIN_PASSWORD = "admin123"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "junze-anju-db"

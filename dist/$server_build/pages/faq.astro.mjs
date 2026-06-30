@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../chunks/astro/server_BiXOaMPZ.mjs';
 import 'kleur/colors';
-import { b as getAllFaq, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_8lPx9HcJ.mjs';
+import { b as getAllFaq, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_CLxGqkqd.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;
@@ -11,7 +11,7 @@ const $$Astro = createAstro("https://junze-anju.pages.dev");
 const $$Faq = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Faq;
-  const env = Astro2.locals.env;
+  const env = Astro2.locals.runtime.env;
   const faqs = await getAllFaq(env);
   const business = await getBusinessInfo(env);
   const telephone = business?.telephone || "0375-8888888";

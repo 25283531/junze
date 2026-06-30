@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { c as createExports } from './chunks/server.advanced_BkwAUHJ9.mjs';
-import { manifest } from './manifest_DkqPy9gf.mjs';
+import { manifest } from './manifest_Ce84DJnH.mjs';
 
 const _page0 = () => import('./pages/_image.astro.mjs');
 const _page1 = () => import('./pages/about.astro.mjs');
@@ -9,11 +9,22 @@ const _page3 = () => import('./pages/admin/faq.astro.mjs');
 const _page4 = () => import('./pages/admin/login.astro.mjs');
 const _page5 = () => import('./pages/admin/services.astro.mjs');
 const _page6 = () => import('./pages/admin/settings.astro.mjs');
-const _page7 = () => import('./pages/cases.astro.mjs');
-const _page8 = () => import('./pages/faq.astro.mjs');
-const _page9 = () => import('./pages/services/_slug_.astro.mjs');
-const _page10 = () => import('./pages/services.astro.mjs');
-const _page11 = () => import('./pages/index.astro.mjs');
+const _page7 = () => import('./pages/api/admin/cases.astro.mjs');
+const _page8 = () => import('./pages/api/admin/faq.astro.mjs');
+const _page9 = () => import('./pages/api/admin/get-image.astro.mjs');
+const _page10 = () => import('./pages/api/admin/login.astro.mjs');
+const _page11 = () => import('./pages/api/admin/services.astro.mjs');
+const _page12 = () => import('./pages/api/admin/settings.astro.mjs');
+const _page13 = () => import('./pages/api/admin/upload.astro.mjs');
+const _page14 = () => import('./pages/api/business.astro.mjs');
+const _page15 = () => import('./pages/api/cases.astro.mjs');
+const _page16 = () => import('./pages/api/faq.astro.mjs');
+const _page17 = () => import('./pages/api/services.astro.mjs');
+const _page18 = () => import('./pages/cases.astro.mjs');
+const _page19 = () => import('./pages/faq.astro.mjs');
+const _page20 = () => import('./pages/services/_slug_.astro.mjs');
+const _page21 = () => import('./pages/services.astro.mjs');
+const _page22 = () => import('./pages/index.astro.mjs');
 
 const pageMap = new Map([
     ["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
@@ -23,11 +34,22 @@ const pageMap = new Map([
     ["src/pages/admin/login.astro", _page4],
     ["src/pages/admin/services.astro", _page5],
     ["src/pages/admin/settings.astro", _page6],
-    ["src/pages/cases.astro", _page7],
-    ["src/pages/faq.astro", _page8],
-    ["src/pages/services/[slug].astro", _page9],
-    ["src/pages/services/index.astro", _page10],
-    ["src/pages/index.astro", _page11]
+    ["src/pages/api/admin/cases.ts", _page7],
+    ["src/pages/api/admin/faq.ts", _page8],
+    ["src/pages/api/admin/get-image.ts", _page9],
+    ["src/pages/api/admin/login.ts", _page10],
+    ["src/pages/api/admin/services.ts", _page11],
+    ["src/pages/api/admin/settings.ts", _page12],
+    ["src/pages/api/admin/upload.ts", _page13],
+    ["src/pages/api/business.ts", _page14],
+    ["src/pages/api/cases.ts", _page15],
+    ["src/pages/api/faq.ts", _page16],
+    ["src/pages/api/services.ts", _page17],
+    ["src/pages/cases.astro", _page18],
+    ["src/pages/faq.astro", _page19],
+    ["src/pages/services/[slug].astro", _page20],
+    ["src/pages/services/index.astro", _page21],
+    ["src/pages/index.astro", _page22]
 ]);
 const serverIslandMap = new Map();
 const _manifest = Object.assign(manifest, {

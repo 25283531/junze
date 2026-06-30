@@ -6,7 +6,7 @@ export const prerender = false;
 export const OPTIONS: APIRoute = () => handleOptions();
 
 export const GET: APIRoute = async ({ request, locals }) => {
-  const env = (locals as any).runtime?.env;
+  const env = locals as any;
   const authError = await checkAuth(request, env);
   if (authError) return authError;
 
@@ -23,7 +23,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
 };
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const env = (locals as any).runtime?.env;
+  const env = locals as any;
   const authError = await checkAuth(request, env);
   if (authError) return authError;
 
@@ -49,7 +49,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 };
 
 export const PUT: APIRoute = async ({ request, locals }) => {
-  const env = (locals as any).runtime?.env;
+  const env = locals as any;
   const authError = await checkAuth(request, env);
   if (authError) return authError;
 
@@ -76,7 +76,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 };
 
 export const DELETE: APIRoute = async ({ request, locals }) => {
-  const env = (locals as any).runtime?.env;
+  const env = locals as any;
   const authError = await checkAuth(request, env);
   if (authError) return authError;
 

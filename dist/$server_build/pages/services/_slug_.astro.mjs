@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../../chunks/astro/server_BiXOaMPZ.mjs';
 import 'kleur/colors';
-import { c as getServiceBySlug, g as getBusinessInfo, $ as $$Layout } from '../../chunks/db_8lPx9HcJ.mjs';
+import { c as getServiceBySlug, g as getBusinessInfo, $ as $$Layout } from '../../chunks/db_CLxGqkqd.mjs';
 export { renderers } from '../../renderers.mjs';
 
 var __freeze = Object.freeze;
@@ -15,7 +15,7 @@ const prerender = false;
 const $$slug = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$slug;
-  const env = Astro2.locals.env;
+  const env = Astro2.locals.runtime.env;
   const { slug } = Astro2.params;
   const service = await getServiceBySlug(env, slug);
   if (!service) {

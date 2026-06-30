@@ -1,20 +1,20 @@
 export const onRequest = async (context, next) => {
-  // Astro's Cloudflare adapter automatically provides runtime.env
-  // Only set it if not already present
-  if (!context.locals.runtime) {
-    context.locals.runtime = { env: context.env || {} };
-  }
+  // Astro Cloudflare adapter injects bindings into locals directly
+  // Fallback to context.env if runtime.env is not available
+  const env = context.locals.runtime?.env || context.env || {};
   
-  // Also add bindings directly to locals for easier access
-  if (context.env) {
-    if (context.env.DB) {
-      context.locals.DB = context.env.DB;
-    }
-    if (context.env.KV) {
-      context.locals.KV = context.env.KV;
-    }
-    context.locals.JWT_SECRET = context.env.JWT_SECRET;
-    context.locals.ADMIN_PASSWORD = context.env.ADMIN_PASSWORD;
+  // Copy bindings to locals top-level for API routes to access
+  if (env.DB && !context.locals.DB) {
+    context.locals.DB = env.DB;
+  }
+  if (env.KV && !context.locals.KV) {
+    context.locals.KV = env.KV;
+  }
+  if (env.JWT_SECRET && !context.locals.JWT_SECRET) {
+    context.locals.JWT_SECRET = env.JWT_SECRET;
+  }
+  if (env.ADMIN_PASSWORD && !context.locals.ADMIN_PASSWORD) {
+    context.locals.ADMIN_PASSWORD = env.ADMIN_PASSWORD;
   }
   
   return next();

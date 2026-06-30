@@ -1,18 +1,90 @@
-import { a as createComponent, r as renderHead, d as renderTemplate } from '../../chunks/astro/server_BiXOaMPZ.mjs';
+import { a as createComponent, d as renderTemplate, r as renderHead } from '../../chunks/astro/server_BiXOaMPZ.mjs';
 import 'kleur/colors';
 import 'clsx';
 /* empty css                                    */
 export { renderers } from '../../renderers.mjs';
 
+var __freeze = Object.freeze;
+var __defProp = Object.defineProperty;
+var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(cooked.slice()) }));
+var _a;
 const $$Login = createComponent(async ($$result, $$props, $$slots) => {
-  return renderTemplate`<html lang="zh-CN" data-astro-cid-rf56lckb> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>登录 - 钧泽安居管理后台</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles/global.css">${renderHead()}</head> <body data-astro-cid-rf56lckb> <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12" data-astro-cid-rf56lckb> <div class="absolute inset-0" data-astro-cid-rf56lckb> <div class="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float" data-astro-cid-rf56lckb></div> <div class="absolute bottom-20 right-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;" data-astro-cid-rf56lckb></div> <div class="absolute top-1/2 left-1/3 w-48 h-48 bg-cyan-500/8 rounded-full blur-2xl animate-float" style="animation-delay: -1.5s;" data-astro-cid-rf56lckb></div> </div> <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 30px 30px;" data-astro-cid-rf56lckb></div> <div class="relative z-10 max-w-md animate-fade-in" data-astro-cid-rf56lckb> <div class="flex items-center space-x-4 mb-12" data-astro-cid-rf56lckb> <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25" data-astro-cid-rf56lckb> <span class="text-white font-bold text-xl" data-astro-cid-rf56lckb>钧</span> </div> <div data-astro-cid-rf56lckb> <h2 class="text-2xl font-bold text-white" data-astro-cid-rf56lckb>钧泽安居</h2> <p class="text-blue-300/70 text-sm" data-astro-cid-rf56lckb>管理后台系统</p> </div> </div> <h1 class="text-4xl font-bold text-white leading-tight mb-6" data-astro-cid-rf56lckb>
-河南平顶山<br data-astro-cid-rf56lckb> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400" data-astro-cid-rf56lckb>一站式家居服务平台</span> </h1> <p class="text-blue-200/60 text-lg leading-relaxed mb-12" data-astro-cid-rf56lckb>
-专业提供家政服务、水电维修、适老化改造、智能家居等七大核心业务
-</p> <div class="grid grid-cols-3 gap-6" data-astro-cid-rf56lckb> <div class="glass rounded-xl p-4 text-center" data-astro-cid-rf56lckb> <div class="text-2xl font-bold text-white" data-astro-cid-rf56lckb>7</div> <div class="text-blue-300/60 text-xs mt-1" data-astro-cid-rf56lckb>核心业务</div> </div> <div class="glass rounded-xl p-4 text-center" data-astro-cid-rf56lckb> <div class="text-2xl font-bold text-white" data-astro-cid-rf56lckb>1000+</div> <div class="text-blue-300/60 text-xs mt-1" data-astro-cid-rf56lckb>服务客户</div> </div> <div class="glass rounded-xl p-4 text-center" data-astro-cid-rf56lckb> <div class="text-2xl font-bold text-white" data-astro-cid-rf56lckb>5年</div> <div class="text-blue-300/60 text-xs mt-1" data-astro-cid-rf56lckb>服务经验</div> </div> </div> </div> </div> <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12" data-astro-cid-rf56lckb> <div class="w-full max-w-sm animate-slide-up" data-astro-cid-rf56lckb> <div class="lg:hidden flex items-center space-x-3 mb-10" data-astro-cid-rf56lckb> <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25" data-astro-cid-rf56lckb> <span class="text-white font-bold text-lg" data-astro-cid-rf56lckb>钧</span> </div> <div data-astro-cid-rf56lckb> <h2 class="text-xl font-bold text-white" data-astro-cid-rf56lckb>钧泽安居</h2> <p class="text-blue-300/60 text-xs" data-astro-cid-rf56lckb>管理后台系统</p> </div> </div> <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl" data-astro-cid-rf56lckb> <div class="mb-8" data-astro-cid-rf56lckb> <h3 class="text-xl font-semibold text-white mb-2" data-astro-cid-rf56lckb>欢迎回来</h3> <p class="text-blue-200/50 text-sm" data-astro-cid-rf56lckb>请登录您的管理员账户</p> </div> <form id="loginForm" class="space-y-5" data-astro-cid-rf56lckb> <div data-astro-cid-rf56lckb> <label class="block text-sm font-medium text-blue-200/70 mb-2" data-astro-cid-rf56lckb>用户名</label> <div class="relative" data-astro-cid-rf56lckb> <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-rf56lckb> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" data-astro-cid-rf56lckb></path> </svg> <input type="text" id="username" class="input-field w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-blue-200/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all" placeholder="请输入用户名" data-astro-cid-rf56lckb> </div> </div> <div data-astro-cid-rf56lckb> <label class="block text-sm font-medium text-blue-200/70 mb-2" data-astro-cid-rf56lckb>密码</label> <div class="relative" data-astro-cid-rf56lckb> <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-rf56lckb> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" data-astro-cid-rf56lckb></path> </svg> <input type="password" id="password" class="input-field w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-blue-200/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all" placeholder="请输入密码" data-astro-cid-rf56lckb> </div> </div> <button type="submit" id="loginBtn" class="btn-login w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold py-3.5 rounded-xl hover:from-blue-500 hover:to-blue-400 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all" data-astro-cid-rf56lckb>
-登 录
-</button> </form> <p id="errorMessage" class="text-red-400 text-center text-sm mt-4 hidden" data-astro-cid-rf56lckb></p> </div> <p class="text-center text-blue-200/30 text-xs mt-8" data-astro-cid-rf56lckb>
-&copy; 2026 钧泽安居 &middot; 河南平顶山
-</p> </div> </div>  </body> </html>`;
+  return renderTemplate(_a || (_a = __template(['<html lang="zh-CN" data-astro-cid-rf56lckb> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u767B\u5F55 - \u94A7\u6CFD\u5B89\u5C45\u7BA1\u7406\u540E\u53F0</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">', `</head> <body data-astro-cid-rf56lckb> <div class="sidebar" data-astro-cid-rf56lckb> <div class="sidebar-bg-1" data-astro-cid-rf56lckb></div> <div class="sidebar-bg-2" data-astro-cid-rf56lckb></div> <div class="sidebar-bg-3" data-astro-cid-rf56lckb></div> <div class="sidebar-dots" data-astro-cid-rf56lckb></div> <div class="sidebar-content" data-astro-cid-rf56lckb> <div class="logo-row" data-astro-cid-rf56lckb> <div class="logo-icon" data-astro-cid-rf56lckb><span data-astro-cid-rf56lckb>\u94A7</span></div> <div class="logo-text" data-astro-cid-rf56lckb> <h2 data-astro-cid-rf56lckb>\u94A7\u6CFD\u5B89\u5C45</h2> <p data-astro-cid-rf56lckb>\u7BA1\u7406\u540E\u53F0\u7CFB\u7EDF</p> </div> </div> <h1 class="sidebar-title" data-astro-cid-rf56lckb>
+\u6CB3\u5357\u5E73\u9876\u5C71<br data-astro-cid-rf56lckb> <span class="gradient-text" data-astro-cid-rf56lckb>\u4E00\u7AD9\u5F0F\u5BB6\u5C45\u670D\u52A1\u5E73\u53F0</span> </h1> <p class="sidebar-desc" data-astro-cid-rf56lckb>
+\u4E13\u4E1A\u63D0\u4F9B\u5BB6\u653F\u670D\u52A1\u3001\u6C34\u7535\u7EF4\u4FEE\u3001\u9002\u8001\u5316\u6539\u9020\u3001\u667A\u80FD\u5BB6\u5C45\u7B49\u4E03\u5927\u6838\u5FC3\u4E1A\u52A1
+</p> <div class="stats-grid" data-astro-cid-rf56lckb> <div class="stat-card" data-astro-cid-rf56lckb> <div class="num" data-astro-cid-rf56lckb>7</div> <div class="label" data-astro-cid-rf56lckb>\u6838\u5FC3\u4E1A\u52A1</div> </div> <div class="stat-card" data-astro-cid-rf56lckb> <div class="num" data-astro-cid-rf56lckb>1000+</div> <div class="label" data-astro-cid-rf56lckb>\u670D\u52A1\u5BA2\u6237</div> </div> <div class="stat-card" data-astro-cid-rf56lckb> <div class="num" data-astro-cid-rf56lckb>5\u5E74</div> <div class="label" data-astro-cid-rf56lckb>\u670D\u52A1\u7ECF\u9A8C</div> </div> </div> </div> </div> <div class="login-area" data-astro-cid-rf56lckb> <div class="login-container" data-astro-cid-rf56lckb> <div class="mobile-logo" data-astro-cid-rf56lckb> <div class="mobile-logo-icon" data-astro-cid-rf56lckb><span data-astro-cid-rf56lckb>\u94A7</span></div> <div class="mobile-logo-text" data-astro-cid-rf56lckb> <h2 data-astro-cid-rf56lckb>\u94A7\u6CFD\u5B89\u5C45</h2> <p data-astro-cid-rf56lckb>\u7BA1\u7406\u540E\u53F0\u7CFB\u7EDF</p> </div> </div> <div class="login-card" data-astro-cid-rf56lckb> <h3 data-astro-cid-rf56lckb>\u6B22\u8FCE\u56DE\u6765</h3> <p class="subtitle" data-astro-cid-rf56lckb>\u8BF7\u767B\u5F55\u60A8\u7684\u7BA1\u7406\u5458\u8D26\u6237</p> <form id="loginForm" data-astro-cid-rf56lckb> <div class="form-group" data-astro-cid-rf56lckb> <label data-astro-cid-rf56lckb>\u7528\u6237\u540D</label> <div class="input-wrapper" data-astro-cid-rf56lckb> <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-rf56lckb> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" data-astro-cid-rf56lckb></path> </svg> <input type="text" id="username" class="input-field" placeholder="\u8BF7\u8F93\u5165\u7528\u6237\u540D" data-astro-cid-rf56lckb> </div> </div> <div class="form-group" data-astro-cid-rf56lckb> <label data-astro-cid-rf56lckb>\u5BC6\u7801</label> <div class="input-wrapper" data-astro-cid-rf56lckb> <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-rf56lckb> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" data-astro-cid-rf56lckb></path> </svg> <input type="password" id="password" class="input-field" placeholder="\u8BF7\u8F93\u5165\u5BC6\u7801" data-astro-cid-rf56lckb> </div> </div> <button type="submit" id="loginBtn" class="login-btn" data-astro-cid-rf56lckb>\u767B \u5F55</button> </form> <p id="errorMessage" class="error-msg" data-astro-cid-rf56lckb></p> </div> <p class="footer-text" data-astro-cid-rf56lckb>&copy; 2026 \u94A7\u6CFD\u5B89\u5C45 &middot; \u6CB3\u5357\u5E73\u9876\u5C71</p> </div> </div> <script>
+      (function() {
+        console.log('Login script loaded');
+        
+        function initLoginForm() {
+          var form = document.getElementById('loginForm');
+          var username = document.getElementById('username');
+          var password = document.getElementById('password');
+          var errorMessage = document.getElementById('errorMessage');
+          var loginBtn = document.getElementById('loginBtn');
+
+          if (!form || !username || !password || !errorMessage || !loginBtn) {
+            console.error('Form elements not found');
+            return;
+          }
+
+          console.log('Login form initialized');
+
+          form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            var usernameValue = username.value.trim();
+            var passwordValue = password.value;
+
+            if (!usernameValue || !passwordValue) {
+              errorMessage.textContent = '\u8BF7\u8F93\u5165\u7528\u6237\u540D\u548C\u5BC6\u7801';
+              errorMessage.classList.add('show');
+              return;
+            }
+
+            errorMessage.classList.remove('show');
+            loginBtn.disabled = true;
+            loginBtn.textContent = '\u767B\u5F55\u4E2D...';
+
+            try {
+              console.log('Sending login request...');
+              var response = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: usernameValue, password: passwordValue })
+              });
+
+              console.log('Response status:', response.status);
+              var data = await response.json();
+              console.log('Response data:', data);
+
+              if (data.success) {
+                localStorage.setItem('token', data.token);
+                window.location.href = '/admin/services';
+              } else {
+                errorMessage.textContent = data.error || '\u767B\u5F55\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7528\u6237\u540D\u548C\u5BC6\u7801';
+                errorMessage.classList.add('show');
+                loginBtn.disabled = false;
+                loginBtn.textContent = '\u767B \u5F55';
+              }
+            } catch (error) {
+              console.error('Login error:', error);
+              errorMessage.textContent = '\u7F51\u7EDC\u9519\u8BEF\uFF1A' + error.message;
+              errorMessage.classList.add('show');
+              loginBtn.disabled = false;
+              loginBtn.textContent = '\u767B \u5F55';
+            }
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initLoginForm);
+        } else {
+          initLoginForm();
+        }
+      })();
+    <\/script> </body> </html>`])), renderHead());
 }, "E:/code/junze/junze/src/pages/admin/login.astro", void 0);
 
 const $$file = "E:/code/junze/junze/src/pages/admin/login.astro";
