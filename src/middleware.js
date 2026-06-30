@@ -1,4 +1,4 @@
 export const onRequest = async (context, next) => {
-  context.locals.env = context.env;
+  context.locals.runtime = { env: context.env };
   return next();
 };
