@@ -1,5 +1,13 @@
 # 钧泽安居 - Cloudflare 部署指南
 
+## 架构说明
+
+本项目采用 **SSR（服务器端渲染）** 架构，基于 Astro + Cloudflare Pages + Cloudflare Functions。
+
+- **每次页面请求**都由 Cloudflare Functions 实时处理，从 D1 数据库读取最新数据，生成完整 HTML 返回给客户端
+- **后台修改内容即时生效**，无需重新构建或部署
+- **SEO 友好**：搜索引擎和 AI 爬虫收到的是完整 HTML，与静态页面无异，可正常抓取所有动态内容
+
 ## 环境要求
 
 - Node.js >= 18.0.0
@@ -19,11 +27,21 @@ npm install
 npm run build
 ```
 
-构建成功后，静态文件会生成在 `dist/` 目录。
+构建成功后，SSR 产物会生成在 `dist/` 目录（包含静态资源和 Functions）。
 
 ### 3. 部署到 Cloudflare Pages
 
-#### 方式一：通过 Cloudflare 控制台部署（推荐）
+#### 方式一：通过 wrangler CLI 部署（推荐）
+
+```bash
+# 登录 Cloudflare
+npx wrangler login
+
+# 部署（自动上传 dist 目录，包含 Functions）
+npx wrangler pages deploy dist --project-name junze-anju
+```
+
+#### 方式二：通过 Cloudflare 控制台部署
 
 1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)
 2. 进入 **Workers & Pages** -> **Pages**
@@ -33,17 +51,11 @@ npm run build
 6. **重要**：上传整个 `dist/` 目录（包含 `functions/` 子目录），不要只上传静态文件
 7. 点击 **Deploy site**
 
-#### 方式二：通过 wrangler CLI 部署
-
-```bash
-# 登录 Cloudflare
-npx wrangler login
-
-# 部署
-npx wrangler pages deploy dist --project-name junze-anju
-```
+> **注意**：每次代码修改后，需要重新执行 `npm run build` 并重新部署，以使前端代码变更生效。后台数据修改（服务、案例、FAQ 等）无需重新部署，即时生效。
 
 ### 4. 创建 KV 命名空间（控制台操作）
+
+KV 命名空间用于存储营业执照等上传的图片。
 
 1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)
 2. 左侧菜单进入 **Workers & Pages** -> **KV**
@@ -243,6 +255,14 @@ INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES
 | FAQ 管理 | `/admin/faq` |
 | 设置 | `/admin/settings` |
 
+### 商家设置
+
+在 **设置** 页面可以：
+- 修改企业名称、描述、电话、地址、服务区域
+- 修改微信号、营业执照号
+- **上传营业执照图片**（图片存储在 KV 中，前端展示时带有防下载保护：禁用右键菜单、动态加载、添加 `X-Robots-Tag: noindex` 响应头）
+- 修改管理员密码
+
 ## 数据库操作
 
 ### 查看数据
@@ -280,7 +300,7 @@ DELETE FROM cases;
 DELETE FROM faq;
 DELETE FROM business_info;
 
--- 重新执行 seed/init.sql 中的 INSERT 语句
+-- 重新执行上方"完整初始化 SQL"中的 INSERT 语句
 ```
 
 ## 常见问题
@@ -288,17 +308,32 @@ DELETE FROM business_info;
 ### Q: 部署后页面样式不生效？
 
 A: 请检查：
-1. 构建是否成功完成
+1. 构建是否成功完成（`npm run build` 无报错）
 2. 确认 `dist/_astro/` 目录下存在 CSS 文件
-3. 清除浏览器缓存后重新加载页面
+3. 清除浏览器缓存后重新加载页面（Ctrl+Shift+R）
 
 ### Q: API 请求返回 500 错误？
 
 A: 请检查：
 1. D1 数据库是否正确绑定（变量名必须是 `DB`）
-2. 环境变量是否正确设置
-3. 数据库是否已初始化（执行了 `seed/init.sql`）
-4. 在 Cloudflare 控制台查看函数日志
+2. KV 命名空间是否正确绑定（变量名必须是 `KV`）
+3. 环境变量是否正确设置
+4. 数据库是否已初始化（执行了初始化 SQL）
+5. 在 Cloudflare 控制台查看函数日志
+
+### Q: 后台修改内容后前端没有更新？
+
+A: 本项目采用 SSR 架构，后台修改内容保存到 D1 数据库后，前端**即时生效**，无需重新部署。如果仍看不到更新：
+1. 清除浏览器缓存（Ctrl+Shift+R 强制刷新）
+2. 确认数据已保存到 D1（在数据库 Console 中查询验证）
+
+### Q: 修改了前端代码后怎么更新？
+
+A: 前端代码（页面样式、布局、组件等）修改后，需要重新构建并部署：
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name junze-anju
+```
 
 ### Q: 如何修改管理员密码？
 
@@ -311,10 +346,9 @@ A: 两种方式：
 
 ### Q: 如何更新内容？
 
-A: 有三种方式：
+A: 有两种方式：
 1. 通过管理后台修改（推荐）
 2. 在 D1 数据库控制台直接执行 SQL
-3. 修改 `seed/init.sql` 后重新执行
 
 ## 项目结构
 
@@ -322,18 +356,50 @@ A: 有三种方式：
 junze-anju/
 ├── src/
 │   ├── components/          # 组件
+│   │   ├── AdminLayout.astro
+│   │   ├── Footer.astro
+│   │   ├── Header.astro
+│   │   ├── JsonLd.astro
+│   │   └── ServiceCard.astro
 │   ├── layouts/             # 布局
-│   ├── pages/              # 页面
-│   │   ├── admin/          # 管理后台
-│   │   └── services/       # 服务详情页
-│   └── styles/             # 样式
-├── functions/              # Cloudflare Functions
-│   ├── api/                # 公开 API
-│   └── admin/              # 管理 API
-├── seed/                   # 数据库初始化脚本
-│   └── init.sql           # SQL 初始化脚本
-├── public/                 # 静态资源
-├── wrangler.toml           # Cloudflare 配置
-├── astro.config.mjs       # Astro 配置
-└── package.json           # 项目配置
+│   │   └── Layout.astro
+│   ├── lib/                 # 工具库
+│   │   └── db.js            # D1 数据库查询函数（SSR 用）
+│   ├── pages/               # 页面（SSR，实时从 D1 读取数据）
+│   │   ├── admin/           # 管理后台
+│   │   │   ├── cases.astro
+│   │   │   ├── faq.astro
+│   │   │   ├── login.astro
+│   │   │   ├── services.astro
+│   │   │   └── settings.astro
+│   │   ├── services/        # 服务详情页
+│   │   │   ├── index.astro  # 服务列表
+│   │   │   └── [slug].astro # 服务详情（动态路由）
+│   │   ├── about.astro
+│   │   ├── cases.astro
+│   │   ├── faq.astro
+│   │   └── index.astro      # 首页
+│   └── styles/              # 样式
+│       └── global.css
+├── functions/               # Cloudflare Functions（API 接口）
+│   └── api/
+│       ├── admin/           # 管理后台 API（需 JWT 认证）
+│       │   ├── login.js
+│       │   ├── settings.js
+│       │   ├── services.js
+│       │   ├── cases.js
+│       │   ├── faq.js
+│       │   ├── upload.js    # 营业执照上传到 KV
+│       │   └── get-image.js # 获取图片（防下载）
+│       ├── business.js      # 公开 API - 企业信息
+│       ├── services.js      # 公开 API - 服务列表
+│       ├── cases.js         # 公开 API - 案例列表
+│       └── faq.js           # 公开 API - FAQ 列表
+├── scripts/
+│   └── copy-functions.mjs   # 构建后复制 Functions 和 CSS 到 dist
+├── public/                  # 静态资源
+│   └── robots.txt
+├── wrangler.toml            # Cloudflare 配置（D1、KV 绑定）
+├── astro.config.mjs         # Astro 配置（SSR + Cloudflare adapter）
+└── package.json             # 项目配置
 ```

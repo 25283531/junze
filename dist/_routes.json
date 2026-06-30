@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "include": [
+    "/",
+    "/faq",
+    "/about",
+    "/cases",
+    "/_image",
+    "/services",
+    "/admin/faq",
+    "/services/*",
+    "/admin/cases",
+    "/admin/login",
+    "/admin/services",
+    "/admin/settings"
+  ],
+  "exclude": [
+    "/services/index.html",
+    "/services/smart-home/index.html",
+    "/services/ju-bu-gai-zao/index.html",
+    "/services/bao-jie-qing-xi/index.html",
+    "/services/fang-wu-jian-ce/index.html",
+    "/services/jia-zheng-fu-wu/index.html",
+    "/services/shui-dian-wei-xiu/index.html",
+    "/services/shi-lao-hua-gai-zao/index.html"
+  ]
+}

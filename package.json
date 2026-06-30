@@ -9,8 +9,10 @@
     "deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^9.2.1",
     "@lucide/astro": "^0.500.0",
-    "astro": "^4.15.9"
+    "astro": "^4.15.9",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260629.1",

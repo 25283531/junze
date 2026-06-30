@@ -3,3 +3,13 @@ compatibility_date = "2025-01-01"
 
 [build]
 command = "npm run build"
+publish_directory = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "junze-anju-db"
+database_id = "junze-anju-db"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "8a98f7fefdad4cc9970b322d882f3c05"

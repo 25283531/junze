@@ -1,21 +1,34 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import { getBusinessInfo } from '@/lib/db.js';
+
+const env = Astro.locals.env;
+const business = await getBusinessInfo(env);
+
+const name = business?.name || '钧泽安居';
+const description = business?.description || '钧泽安居是河南平顶山本地专业的家居服务平台，致力于为平顶山市民提供优质、专业、便捷的家居服务。';
+const telephone = business?.telephone || '0375-8888888';
+const address = business?.address || '平顶山市湛河区建设路东段';
+const wechat = business?.wechat || 'junze-anju';
+const license = business?.license || '营业执照号：XXXXXX';
+const licenseImageKey = business?.license_image_key || '';
+const serviceAreas = business?.service_areas || [];
 ---
 
-<Layout title="关于我们 - 钧泽安居" description="钧泽安居是河南平顶山本地专业的家居服务平台，提供家政服务、水电维修、适老化改造、智能家居等七大核心业务" keywords="钧泽安居介绍,平顶山家居服务,家政服务公司">
+<Layout title={`关于我们 - ${name}`} description={`${name}是河南平顶山本地专业的家居服务平台，提供家政服务、水电维修、适老化改造、智能家居等七大核心业务`} keywords="钧泽安居介绍,平顶山家居服务,家政服务公司">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "钧泽安居",
-      "description": "河南平顶山本地专业的家政、水电维修、适老化与智能家居改造服务商",
-      "areaServed": ["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"],
-      "telephone": "0375-8888888",
+      "name": {name},
+      "description": {description},
+      "areaServed": {JSON.stringify(serviceAreas)},
+      "telephone": {telephone},
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "平顶山",
         "addressRegion": "河南",
-        "streetAddress": "平顶山市湛河区建设路东段"
+        "streetAddress": {address}
       },
       "service": [
         { "@type": "Service", "name": "家政服务" },
@@ -45,16 +58,16 @@ import Layout from '@/layouts/Layout.astro';
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">关于钧泽安居</h1>
-          <div class="space-y-4" id="aboutDescription">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">关于{name}</h1>
+          <div class="space-y-4">
             <p class="text-gray-600 leading-relaxed text-lg">
-              钧泽安居是河南平顶山本地专业的家居服务平台，致力于为平顶山市民提供优质、专业、便捷的家居服务。我们拥有经验丰富的专业服务团队，所有人员均经过严格培训和认证，确保服务质量。
+              {description}
             </p>
             <p class="text-gray-600 leading-relaxed text-lg">
               我们的服务涵盖家政服务、水电维修、局部改造、适老化改造、智能家居、房屋检测、保洁清洗等七大核心业务，能够满足您的各类家居需求。无论是日常保洁、水电维修，还是适老化改造、智能家居安装，我们都能提供专业的解决方案。
             </p>
             <p class="text-gray-600 leading-relaxed text-lg">
-              钧泽安居始终坚持"客户至上、服务第一"的理念，以透明的价格、专业的服务、快速的响应，赢得了平顶山市民的信赖和好评。
+              {name}始终坚持"客户至上、服务第一"的理念，以透明的价格、专业的服务、快速的响应，赢得了平顶山市民的信赖和好评。
             </p>
           </div>
           <div class="grid grid-cols-2 gap-4 mt-8">
@@ -63,7 +76,7 @@ import Layout from '@/layouts/Layout.astro';
               <div class="text-gray-600">核心业务</div>
             </div>
             <div class="bg-primary/5 rounded-xl p-6 text-center">
-              <div class="text-4xl font-bold text-primary mb-2">9</div>
+              <div class="text-4xl font-bold text-primary mb-2">{serviceAreas.length}</div>
               <div class="text-gray-600">服务区县</div>
             </div>
             <div class="bg-primary/5 rounded-xl p-6 text-center">
@@ -87,7 +100,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/80 mb-1">服务热线</div>
-                <a id="aboutTelLink" href="tel:0375-8888888" class="text-xl font-bold text-white hover:underline">0375-8888888</a>
+                <a href={`tel:${telephone}`} class="text-xl font-bold text-white hover:underline">{telephone}</a>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -99,7 +112,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/60 mb-1">服务地址</div>
-                <div id="aboutAddress" class="text-lg">平顶山市湛河区建设路东段</div>
+                <div class="text-lg">{address}</div>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -110,7 +123,7 @@ import Layout from '@/layouts/Layout.astro';
               </div>
               <div>
                 <div class="text-sm text-white/60 mb-1">微信</div>
-                <div id="aboutWechat" class="text-lg">junze-anju</div>
+                <div class="text-lg">{wechat}</div>
               </div>
             </div>
             <div class="flex items-start space-x-4">
@@ -172,20 +185,23 @@ import Layout from '@/layouts/Layout.astro';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div>
             <h3 class="text-xl font-bold text-gray-900 mb-6">营业执照</h3>
-            <div class="bg-gray-50 rounded-xl p-8" id="licenseContainer">
-              <div class="text-center" id="licensePlaceholder">
-                <svg class="w-20 h-20 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <p class="text-gray-600">营业执照号：XXXXXX</p>
-              </div>
-              <div class="hidden" id="licenseImageWrapper">
-                <div class="relative overflow-hidden rounded-lg">
-                  <img id="licenseImage" src="" alt="营业执照" class="w-full max-h-[400px] object-contain" />
-                  <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+            <div class="bg-gray-50 rounded-xl p-8">
+              {licenseImageKey ? (
+                <div>
+                  <div class="relative overflow-hidden rounded-lg">
+                    <img src={`/api/admin/get-image?key=${licenseImageKey}`} alt="营业执照" class="w-full max-h-[400px] object-contain" oncontextmenu="return false;" />
+                    <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+                  </div>
+                  <p class="text-center text-gray-500 text-sm mt-3">{license}</p>
                 </div>
-                <p class="text-center text-gray-500 text-sm mt-3">营业执照号：XXXXXX</p>
-              </div>
+              ) : (
+                <div class="text-center">
+                  <svg class="w-20 h-20 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <p class="text-gray-600">{license}</p>
+                </div>
+              )}
             </div>
           </div>
           <div>
@@ -229,74 +245,4 @@ import Layout from '@/layouts/Layout.astro';
       </div>
     </div>
   </section>
-
-  <script is:inline>
-    async function loadAboutData() {
-      try {
-        const response = await fetch('/api/business');
-        const data = await response.json();
-
-        if (data) {
-          if (data.description) {
-            const aboutDescription = document.getElementById('aboutDescription');
-            if (aboutDescription) {
-              aboutDescription.innerHTML = `<p class="text-gray-600 leading-relaxed text-lg">${data.description}</p>`;
-            }
-          }
-
-          if (data.telephone) {
-            const telLink = document.getElementById('aboutTelLink');
-            if (telLink) {
-              telLink.href = `tel:${data.telephone}`;
-              telLink.textContent = data.telephone;
-            }
-          }
-
-          if (data.address) {
-            const addressDiv = document.getElementById('aboutAddress');
-            if (addressDiv) {
-              addressDiv.textContent = data.address;
-            }
-          }
-
-          if (data.wechat) {
-            const wechatDiv = document.getElementById('aboutWechat');
-            if (wechatDiv) {
-              wechatDiv.textContent = data.wechat;
-            }
-          }
-
-          if (data.license_image_key) {
-            const licensePlaceholder = document.getElementById('licensePlaceholder');
-            const licenseImageWrapper = document.getElementById('licenseImageWrapper');
-            const licenseImage = document.getElementById('licenseImage');
-            
-            licensePlaceholder.classList.add('hidden');
-            licenseImageWrapper.classList.remove('hidden');
-            licenseImage.src = `/api/admin/get-image?key=${data.license_image_key}`;
-          }
-
-          if (data.license) {
-            const licenseText = document.querySelector('#licenseContainer p.text-gray-600');
-            if (licenseText) {
-              licenseText.textContent = data.license;
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Failed to load about data:', error);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadAboutData();
-      
-      const licenseImage = document.getElementById('licenseImage');
-      if (licenseImage) {
-        licenseImage.addEventListener('contextmenu', (e) => {
-          e.preventDefault();
-        });
-      }
-    });
-  </script>
 </Layout>

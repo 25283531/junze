@@ -1,77 +1,23 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import { getServiceBySlug, getBusinessInfo } from '@/lib/db.js';
 
 export async function getStaticPaths() {
-  const defaultSlugs = ['jia-zheng-fu-wu', 'shui-dian-wei-xiu', 'ju-bu-gai-zao', 'shi-lao-hua-gai-zao', 'smart-home', 'fang-wu-jian-ce', 'bao-jie-qing-xi'];
-  
-  return defaultSlugs.map(slug => ({
-    params: { slug },
-    props: {},
-  }));
+  return [];
 }
 
+export const prerender = false;
+
+const env = Astro.locals.env;
 const { slug } = Astro.params;
+const service = await getServiceBySlug(env, slug);
 
-const defaultServices = {
-  'jia-zheng-fu-wu': {
-    title: '家政服务',
-    description: '专业家政保洁服务，让您的家焕然一新',
-    content: '我们提供全方位的家政保洁服务，包括日常保洁、深度保洁、新居开荒等。专业团队，用心服务，让您的家始终保持整洁舒适。',
-    price_range: '根据服务面积和内容定价，一般家庭日常保洁 100-300 元/次',
-    process: ['预约咨询', '上门评估', '制定方案', '专业服务', '验收反馈'],
-    icon: 'Home',
-  },
-  'shui-dian-wei-xiu': {
-    title: '水电维修',
-    description: '专业水电维修安装服务，安全可靠',
-    content: '我们拥有专业的水电维修团队，提供快速响应的水电维修服务。无论是水管漏水、电路故障还是新装改造，我们都能高效解决。',
-    price_range: '上门服务费 50-100 元，材料费用另计',
-    process: ['电话报修', '快速响应', '现场诊断', '维修施工', '质量保证'],
-    icon: 'Wrench',
-  },
-  'ju-bu-gai-zao': {
-    title: '局部改造',
-    description: '房屋局部空间改造，提升居住品质',
-    content: '针对房屋局部空间进行改造升级，包括厨房翻新、卫生间改造、阳台利用等，让您的居住空间更舒适实用。',
-    price_range: '根据改造面积和材料定价，一般局部改造 3000-10000 元',
-    process: ['需求沟通', '方案设计', '报价确认', '施工改造', '竣工验收'],
-    icon: 'Hammer',
-  },
-  'shi-lao-hua-gai-zao': {
-    title: '适老化改造',
-    description: '专业适老化改造，关爱老人生活',
-    content: '为高龄老人家庭提供专业的适老化改造服务，安装防滑设施、安全扶手、智能监测设备，让老人生活更安全、更便捷。',
-    price_range: '根据改造项目和面积定价，一般适老化改造 5000-20000 元',
-    process: ['上门勘测', '方案设计', '专业施工', '设备调试', '售后培训'],
-    icon: 'Heart',
-  },
-  'smart-home': {
-    title: '智能家居',
-    description: '智能家居系统安装，享受智慧生活',
-    content: '提供全屋智能家居系统设计与安装服务，让您的家更智能、更便捷、更安全。',
-    price_range: '根据系统配置定价，一般智能家居 8000-30000 元',
-    process: ['需求分析', '方案设计', '设备采购', '安装调试', '使用培训'],
-    icon: 'Cpu',
-  },
-  'fang-wu-jian-ce': {
-    title: '房屋检测',
-    description: '专业房屋检测，保障居住安全',
-    content: '提供专业的房屋检测服务，包括水电安全检测、结构检测、空气质量检测等，让您安心居住。',
-    price_range: '根据检测项目定价，一般房屋检测 500-2000 元',
-    process: ['预约检测', '现场检测', '数据采集', '报告出具', '建议方案'],
-    icon: 'Search',
-  },
-  'bao-jie-qing-xi': {
-    title: '保洁清洗',
-    description: '专业保洁清洗服务，洁净每一天',
-    content: '提供各类保洁清洗服务，包括开荒保洁、外墙清洗、空调清洗等，让您的环境始终保持洁净。',
-    price_range: '根据服务类型和面积定价',
-    process: ['预约服务', '现场评估', '专业清洗', '质量验收', '售后保障'],
-    icon: 'Sparkles',
-  },
-};
+if (!service) {
+  return Astro.redirect('/services');
+}
 
-const service = defaultServices[slug] || defaultServices['jia-zheng-fu-wu'];
+const business = await getBusinessInfo(env);
+const telephone = business?.telephone || '0375-8888888';
 
 const iconPaths = {
   Home: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
@@ -82,6 +28,8 @@ const iconPaths = {
   Search: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7',
   Sparkles: 'M13 10V3L4 14h7v7l9-11h-7z',
 };
+
+const processSteps = Array.isArray(service.process) ? service.process : [];
 ---
 
 <Layout title={`${service.title} - 钧泽安居`} description={service.description} keywords={`平顶山${service.title}`}>
@@ -89,19 +37,19 @@ const iconPaths = {
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": "{service.title}",
+      "name": {service.title},
       "provider": {
         "@type": "LocalBusiness",
-        "name": "钧泽安居",
-        "telephone": "0375-8888888",
+        "name": {business?.name || '钧泽安居'},
+        "telephone": {telephone},
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "平顶山",
           "addressRegion": "河南"
         }
       },
-      "description": "{service.description}",
-      "areaServed": ["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"]
+      "description": {service.description},
+      "areaServed": {JSON.stringify(business?.service_areas || [])}
     }
   </script>
 
@@ -142,7 +90,7 @@ const iconPaths = {
               <span class="w-1 h-6 bg-primary rounded-full mr-3"></span>
               服务介绍
             </h2>
-            <div class="space-y-6" id="serviceContent">
+            <div class="space-y-6">
               <p class="text-gray-600 leading-relaxed text-lg">{service.content}</p>
             </div>
           </div>
@@ -159,7 +107,7 @@ const iconPaths = {
                 </svg>
               </div>
               <div>
-                <p id="servicePrice" class="text-gray-900 font-semibold text-lg">{service.price_range}</p>
+                <p class="text-gray-900 font-semibold text-lg">{service.price_range}</p>
                 <p class="text-gray-500 mt-1">所有服务价格透明公开，无隐藏收费，服务前提供详细报价</p>
               </div>
             </div>
@@ -173,7 +121,7 @@ const iconPaths = {
             <div class="relative">
               <div class="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-gray-200"></div>
               <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-                {service.process.map((step, index) => (
+                {processSteps.map((step, index) => (
                   <div key={index} class="relative text-center">
                     <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 relative z-10">
                       <span class="text-primary font-bold text-xl">{index + 1}</span>
@@ -190,8 +138,8 @@ const iconPaths = {
           <div class="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 text-white sticky top-24">
             <h3 class="text-xl font-bold mb-2">立即预约</h3>
             <p class="text-white/80 mb-8">我们将在24小时内与您联系</p>
-            <a href="tel:0375-8888888" class="block bg-white text-primary font-semibold text-center py-4 rounded-xl hover:bg-gray-100 transition-colors mb-4 text-lg">
-              0375-8888888
+            <a href={`tel:${telephone}`} class="block bg-white text-primary font-semibold text-center py-4 rounded-xl hover:bg-gray-100 transition-colors mb-4 text-lg">
+              {telephone}
             </a>
             <a href="#" class="block border-2 border-white text-white font-semibold text-center py-4 rounded-xl hover:bg-white/10 transition-colors">
               添加微信咨询
@@ -205,49 +153,4 @@ const iconPaths = {
       </div>
     </div>
   </section>
-
-  <script is:inline>
-    async function loadServiceData() {
-      try {
-        const [servicesResponse, businessResponse] = await Promise.all([
-          fetch('/api/services'),
-          fetch('/api/business')
-        ]);
-
-        const services = await servicesResponse.json();
-        const businessData = await businessResponse.json();
-
-        const currentSlug = window.location.pathname.split('/').pop();
-        const serviceData = services.find(s => s.slug === currentSlug);
-
-        if (serviceData) {
-          if (serviceData.content) {
-            const contentContainer = document.getElementById('serviceContent');
-            if (contentContainer) {
-              contentContainer.innerHTML = `<p class="text-gray-600 leading-relaxed text-lg">${serviceData.content}</p>`;
-            }
-          }
-
-          if (serviceData.price_range) {
-            const priceEl = document.getElementById('servicePrice');
-            if (priceEl) {
-              priceEl.textContent = serviceData.price_range;
-            }
-          }
-        }
-
-        if (businessData && businessData.telephone) {
-          const telLinks = document.querySelectorAll('a[href^="tel:"]');
-          telLinks.forEach(link => {
-            link.href = `tel:${businessData.telephone}`;
-            link.textContent = businessData.telephone;
-          });
-        }
-      } catch (error) {
-        console.error('Failed to load service data:', error);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', loadServiceData);
-  </script>
 </Layout>
