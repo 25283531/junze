@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../chunks/astro/server_BiXOaMPZ.mjs';
 import 'kleur/colors';
-import { a as getAllCases, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_CLxGqkqd.mjs';
+import { a as getAllCases, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_6ek1co_1.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro("https://junze-anju.pages.dev");
