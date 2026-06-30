@@ -227,43 +227,77 @@
     </div>
 
     <script is:inline>
-      document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-        var errorMessage = document.getElementById('errorMessage');
-        var loginBtn = document.getElementById('loginBtn');
+      (function() {
+        console.log('Login script loaded');
+        
+        function initLoginForm() {
+          var form = document.getElementById('loginForm');
+          var username = document.getElementById('username');
+          var password = document.getElementById('password');
+          var errorMessage = document.getElementById('errorMessage');
+          var loginBtn = document.getElementById('loginBtn');
 
-        errorMessage.classList.remove('show');
-
-        loginBtn.disabled = true;
-        loginBtn.textContent = '登录中...';
-
-        try {
-          var response = await fetch('/api/admin/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: username, password: password })
-          });
-
-          var data = await response.json();
-
-          if (data.success) {
-            localStorage.setItem('token', data.token);
-            window.location.href = '/admin/services';
-          } else {
-            errorMessage.textContent = data.error || '登录失败，请检查用户名和密码';
-            errorMessage.classList.add('show');
-            loginBtn.disabled = false;
-            loginBtn.textContent = '登 录';
+          if (!form || !username || !password || !errorMessage || !loginBtn) {
+            console.error('Form elements not found');
+            return;
           }
-        } catch (error) {
-          errorMessage.textContent = '网络错误，请稍后重试';
-          errorMessage.classList.add('show');
-          loginBtn.disabled = false;
-          loginBtn.textContent = '登 录';
+
+          console.log('Login form initialized');
+
+          form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            var usernameValue = username.value.trim();
+            var passwordValue = password.value;
+
+            if (!usernameValue || !passwordValue) {
+              errorMessage.textContent = '请输入用户名和密码';
+              errorMessage.classList.add('show');
+              return;
+            }
+
+            errorMessage.classList.remove('show');
+            loginBtn.disabled = true;
+            loginBtn.textContent = '登录中...';
+
+            try {
+              console.log('Sending login request...');
+              var response = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: usernameValue, password: passwordValue })
+              });
+
+              console.log('Response status:', response.status);
+              var data = await response.json();
+              console.log('Response data:', data);
+
+              if (data.success) {
+                localStorage.setItem('token', data.token);
+                window.location.href = '/admin/services';
+              } else {
+                errorMessage.textContent = data.error || '登录失败，请检查用户名和密码';
+                errorMessage.classList.add('show');
+                loginBtn.disabled = false;
+                loginBtn.textContent = '登 录';
+              }
+            } catch (error) {
+              console.error('Login error:', error);
+              errorMessage.textContent = '网络错误：' + error.message;
+              errorMessage.classList.add('show');
+              loginBtn.disabled = false;
+              loginBtn.textContent = '登 录';
+            }
+          });
         }
-      });
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initLoginForm);
+        } else {
+          initLoginForm();
+        }
+      })();
     </script>
   </body>
 </html>

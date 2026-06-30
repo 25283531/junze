@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { CORS_HEADERS, jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
+import { jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
 
 export const prerender = false;
 
@@ -12,8 +12,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   try {
     const formData = await request.formData();
-    const file = formData.get('file');
-    
+    const file = formData.get('file') as File | null;
+
     if (!file) {
       return jsonResponse({ error: 'No file uploaded' }, 400);
     }
@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const buffer = await file.arrayBuffer();
     const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
     const mimeType = file.type;
-    
+
     const imageData = {
       data: base64,
       mimeType: mimeType,
@@ -35,8 +35,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
 
     return jsonResponse({ success: true, imageKey });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Upload error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };

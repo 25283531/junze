@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     return new Response(JSON.stringify(results.results), {
       headers: { 'Content-Type': 'application/json' }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching cases:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,

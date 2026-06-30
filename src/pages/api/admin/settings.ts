@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { CORS_HEADERS, jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
+import { jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
 
 export const prerender = false;
 
@@ -19,9 +19,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
       result.service_areas = JSON.parse(result.service_areas);
     }
     return jsonResponse(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin settings error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };
 
@@ -32,7 +32,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 
   const db = env.DB;
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const result = await db.prepare(
       'UPDATE business_info SET name = ?, description = ?, telephone = ?, address = ?, service_areas = ?, license = ?, license_image_key = ?, wechat = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1'
     ).bind(
@@ -46,7 +46,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       body.wechat
     ).run();
     return jsonResponse({ success: true, changes: result.changes });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin settings error:', error);
     return jsonResponse({ error: 'Internal server error' }, 500);
   }

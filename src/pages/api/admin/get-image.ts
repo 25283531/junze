@@ -28,7 +28,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         'X-Robots-Tag': 'noindex, nofollow',
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get image error:', error);
     return new Response('Internal Server Error', { status: 500 });
   }

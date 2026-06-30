@@ -23,7 +23,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     return new Response(JSON.stringify(result), {
       headers: { 'Content-Type': 'application/json' }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching business info:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,

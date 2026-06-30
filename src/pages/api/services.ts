@@ -30,14 +30,14 @@ export const GET: APIRoute = async ({ request, locals }) => {
       const results = await db.prepare(
         'SELECT * FROM services ORDER BY sort_order ASC'
       ).all();
-      results.results.forEach(r => {
+      results.results.forEach((r: any) => {
         try { r.process = JSON.parse(r.process); } catch(e) { r.process = []; }
       });
       return new Response(JSON.stringify(results.results), {
         headers: { 'Content-Type': 'application/json' }
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching services:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,

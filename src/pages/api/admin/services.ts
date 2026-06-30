@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { CORS_HEADERS, jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
+import { jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
 
 export const prerender = false;
 
@@ -15,11 +15,11 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const results = await db.prepare(
       'SELECT * FROM services ORDER BY sort_order ASC'
     ).all();
-    results.results.forEach(r => {
+    results.results.forEach((r: any) => {
       try { r.process = JSON.parse(r.process); } catch(e) { r.process = []; }
     });
     return jsonResponse(results.results);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin services error:', error);
     return jsonResponse({ error: error.message }, 500);
   }
@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   const db = env.DB;
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const process = Array.isArray(body.process) ? JSON.stringify(body.process) : '[]';
     const result = await db.prepare(
       'INSERT INTO services (title, slug, description, content, price_range, process, icon, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
@@ -47,7 +47,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       parseInt(body.sort_order) || 0
     ).run();
     return jsonResponse({ success: true, id: result.lastInsertRowid });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin services error:', error);
     return jsonResponse({ error: error.message }, 500);
   }
@@ -60,7 +60,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 
   const db = env.DB;
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const process = Array.isArray(body.process) ? JSON.stringify(body.process) : '[]';
     const result = await db.prepare(
       'UPDATE services SET title = ?, slug = ?, description = ?, content = ?, price_range = ?, process = ?, icon = ?, sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
@@ -76,7 +76,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       parseInt(body.id)
     ).run();
     return jsonResponse({ success: true, changes: result.changes });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin services error:', error);
     return jsonResponse({ error: error.message }, 500);
   }
@@ -95,7 +95,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       'DELETE FROM services WHERE id = ?'
     ).bind(id).run();
     return jsonResponse({ success: true, changes: result.changes });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin services error:', error);
     return jsonResponse({ error: error.message }, 500);
   }

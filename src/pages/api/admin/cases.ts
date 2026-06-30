@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { CORS_HEADERS, jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
+import { jsonResponse, handleOptions, checkAuth } from '@/lib/auth.js';
 
 export const prerender = false;
 
@@ -16,9 +16,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
       'SELECT * FROM cases ORDER BY completion_date DESC'
     ).all();
     return jsonResponse(results.results);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin cases error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };
 
@@ -29,7 +29,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   const db = env.DB;
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const result = await db.prepare(
       'INSERT INTO cases (title, description, area, community, service_content, completion_date, review) VALUES (?, ?, ?, ?, ?, ?, ?)'
     ).bind(
@@ -42,9 +42,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       body.review
     ).run();
     return jsonResponse({ success: true, id: result.lastInsertRowid });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin cases error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };
 
@@ -55,7 +55,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 
   const db = env.DB;
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const result = await db.prepare(
       'UPDATE cases SET title = ?, description = ?, area = ?, community = ?, service_content = ?, completion_date = ?, review = ? WHERE id = ?'
     ).bind(
@@ -69,9 +69,9 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       body.id
     ).run();
     return jsonResponse({ success: true, changes: result.changes });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin cases error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };
 
@@ -88,8 +88,8 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       'DELETE FROM cases WHERE id = ?'
     ).bind(id).run();
     return jsonResponse({ success: true, changes: result.changes });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Admin cases error:', error);
-    return jsonResponse({ error: 'Internal server error' }, 500);
+    return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };
