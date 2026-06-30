@@ -29,6 +29,13 @@ export const onRequest = async ({ env, request }) => {
     });
   }
 
+  if (!db) {
+    return new Response(JSON.stringify({ error: 'D1 database binding "DB" is not configured.' }), {
+      status: 500,
+      headers: CORS_HEADERS
+    });
+  }
+
   try {
     switch (request.method) {
       case 'GET': {
@@ -36,7 +43,7 @@ export const onRequest = async ({ env, request }) => {
           'SELECT * FROM services ORDER BY sort_order ASC'
         ).all();
         results.results.forEach(r => {
-          r.process = JSON.parse(r.process);
+          try { r.process = JSON.parse(r.process); } catch(e) { r.process = []; }
         });
         return new Response(JSON.stringify(results.results), {
           headers: CORS_HEADERS
@@ -45,17 +52,18 @@ export const onRequest = async ({ env, request }) => {
 
       case 'POST': {
         const body = await request.json();
+        const process = Array.isArray(body.process) ? JSON.stringify(body.process) : '[]';
         const result = await db.prepare(
           'INSERT INTO services (title, slug, description, content, price_range, process, icon, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
         ).bind(
           body.title,
           body.slug,
-          body.description,
-          body.content,
-          body.price_range,
-          JSON.stringify(body.process),
-          body.icon,
-          body.sort_order || 0
+          body.description || '',
+          body.content || '',
+          body.price_range || '',
+          process,
+          body.icon || 'Home',
+          parseInt(body.sort_order) || 0
         ).run();
         return new Response(JSON.stringify({ success: true, id: result.lastInsertRowid }), {
           headers: CORS_HEADERS
@@ -64,18 +72,19 @@ export const onRequest = async ({ env, request }) => {
 
       case 'PUT': {
         const body = await request.json();
+        const process = Array.isArray(body.process) ? JSON.stringify(body.process) : '[]';
         const result = await db.prepare(
           'UPDATE services SET title = ?, slug = ?, description = ?, content = ?, price_range = ?, process = ?, icon = ?, sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
         ).bind(
           body.title,
           body.slug,
-          body.description,
-          body.content,
-          body.price_range,
-          JSON.stringify(body.process),
-          body.icon,
-          body.sort_order || 0,
-          body.id
+          body.description || '',
+          body.content || '',
+          body.price_range || '',
+          process,
+          body.icon || 'Home',
+          parseInt(body.sort_order) || 0,
+          parseInt(body.id)
         ).run();
         return new Response(JSON.stringify({ success: true, changes: result.changes }), {
           headers: CORS_HEADERS
@@ -101,7 +110,7 @@ export const onRequest = async ({ env, request }) => {
     }
   } catch (error) {
     console.error('Admin services error:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: CORS_HEADERS
     });
