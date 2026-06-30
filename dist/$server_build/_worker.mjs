@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { c as createExports } from './chunks/server.advanced_BkwAUHJ9.mjs';
-import { manifest } from './manifest_CVldGdn9.mjs';
+import { manifest } from './manifest_DYxwgBd1.mjs';
 
 const _page0 = () => import('./pages/_image.astro.mjs');
 const _page1 = () => import('./pages/about.astro.mjs');
