@@ -14,7 +14,12 @@ const GET = async ({ request, locals }) => {
     const value = await kv.get(key, "text");
     if (!value) return jsonResponse({ error: "Not found" }, 404);
     const imageData = JSON.parse(value);
-    return new Response(Buffer.from(imageData.data, "base64"), {
+    const binaryString = atob(imageData.data);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return new Response(bytes, {
       headers: {
         "Content-Type": imageData.mimeType,
         "Cache-Control": "public, max-age=31536000"
