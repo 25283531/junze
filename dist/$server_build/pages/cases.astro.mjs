@@ -1,13 +1,13 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { a as getAllCases, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_BS4_5DSJ.mjs';
+import { a as getAllCases, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_DGriQWei.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro("https://junze-anju.pages.dev");
 const $$Cases = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Cases;
-  const env = Astro2.locals.runtime.env;
+  const env = Astro2.locals;
   const cases = await getAllCases(env);
   const business = await getBusinessInfo(env);
   const telephone = business?.telephone || "";

@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import { getBusinessInfo } from '@/lib/db.js';
 
-const env = Astro.locals.runtime.env;
+const env = Astro.locals;
 const business = await getBusinessInfo(env);
 
 const name = business?.name || '钧泽安居';

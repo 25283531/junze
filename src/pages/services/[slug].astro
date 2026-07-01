@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 
 export const prerender = false;
 
-const env = Astro.locals.runtime.env;
+const env = Astro.locals;
 const { slug } = Astro.params;
 const service = await getServiceBySlug(env, slug);
 

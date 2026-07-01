@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { d as getAllServices, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_BS4_5DSJ.mjs';
+import { d as getAllServices, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_DGriQWei.mjs';
 import { $ as $$ServiceCard } from '../chunks/ServiceCard_D8Ss1OZl.mjs';
 export { renderers } from '../renderers.mjs';
 
@@ -8,7 +8,7 @@ const $$Astro = createAstro("https://junze-anju.pages.dev");
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Index;
-  const env = Astro2.locals.runtime.env;
+  const env = Astro2.locals;
   const services = await getAllServices(env);
   const business = await getBusinessInfo(env);
   const telephone = business?.telephone || "";

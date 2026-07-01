@@ -3,7 +3,8 @@
  * In SSR mode, env is available via Astro.locals or getServerContext
  */
 export function getDb(env) {
-  return env.DB;
+  // Middleware copies DB to locals top-level; also check runtime.env
+  return env.DB || (env.runtime && env.runtime.env && env.runtime.env.DB);
 }
 
 export async function getAllServices(env) {

@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { g as getBusinessInfo, $ as $$Layout } from '../chunks/db_BS4_5DSJ.mjs';
+import { g as getBusinessInfo, $ as $$Layout } from '../chunks/db_DGriQWei.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;
@@ -11,7 +11,7 @@ const $$Astro = createAstro("https://junze-anju.pages.dev");
 const $$About = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$About;
-  const env = Astro2.locals.runtime.env;
+  const env = Astro2.locals;
   const business = await getBusinessInfo(env);
   const name = business?.name || "\u94A7\u6CFD\u5B89\u5C45";
   const description = business?.description || "\u94A7\u6CFD\u5B89\u5C45\u662F\u6CB3\u5357\u5E73\u9876\u5C71\u672C\u5730\u4E13\u4E1A\u7684\u5BB6\u5C45\u670D\u52A1\u5E73\u53F0\uFF0C\u81F4\u529B\u4E8E\u4E3A\u5E73\u9876\u5C71\u5E02\u6C11\u63D0\u4F9B\u4F18\u8D28\u3001\u4E13\u4E1A\u3001\u4FBF\u6377\u7684\u5BB6\u5C45\u670D\u52A1\u3002";

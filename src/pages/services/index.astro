@@ -3,7 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceCard from '@/components/ServiceCard.astro';
 import { getAllServices, getBusinessInfo } from '@/lib/db.js';
 
-const env = Astro.locals.runtime.env;
+const env = Astro.locals;
 const services = await getAllServices(env);
 const business = await getBusinessInfo(env);
 const telephone = business?.telephone || '';

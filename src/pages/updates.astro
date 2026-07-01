@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import { getAllServiceUpdateCategories, getAllServiceUpdates, getBusinessInfo } from '@/lib/db.js';
 
-const env = Astro.locals.runtime.env;
+const env = Astro.locals;
 const business = await getBusinessInfo(env);
 const categories = await getAllServiceUpdateCategories(env);
 const updates = await getAllServiceUpdates(env);

@@ -4,7 +4,7 @@ import JsonLd from '@/components/JsonLd.astro';
 import ServiceCard from '@/components/ServiceCard.astro';
 import { getAllServices, getAllCases, getAllFaq, getBusinessInfo } from '@/lib/db.js';
 
-const env = Astro.locals.runtime.env;
+const env = Astro.locals;
 const services = await getAllServices(env);
 const cases = await getAllCases(env);
 const faqs = await getAllFaq(env);
