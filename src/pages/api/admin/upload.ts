@@ -19,7 +19,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const buffer = await file.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    const uint8Array = new Uint8Array(buffer);
+    // Chunked base64 encoding to avoid call stack overflow on large files
+    let base64 = '';
+    const chunkSize = 1024;
+    for (let i = 0; i < uint8Array.length; i += chunkSize) {
+      const chunk = uint8Array.subarray(i, i + chunkSize);
+      let binary = '';
+      for (let j = 0; j < chunk.length; j++) {
+        binary += String.fromCharCode(chunk[j]);
+      }
+      base64 += btoa(binary);
+    }
     const mimeType = file.type;
 
     const imageData = {
