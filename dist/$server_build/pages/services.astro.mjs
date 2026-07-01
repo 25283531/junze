@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { d as getAllServices, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_DGriQWei.mjs';
+import { d as getAllServices, g as getBusinessInfo, $ as $$Layout } from '../chunks/db_D0_acqJD.mjs';
 import { $ as $$ServiceCard } from '../chunks/ServiceCard_D8Ss1OZl.mjs';
 export { renderers } from '../renderers.mjs';
 

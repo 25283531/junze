@@ -1,6 +1,6 @@
 import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { g as getBusinessInfo, $ as $$Layout } from '../chunks/db_DGriQWei.mjs';
+import { g as getBusinessInfo, $ as $$Layout } from '../chunks/db_D0_acqJD.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;

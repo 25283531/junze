@@ -27,7 +27,8 @@ export const GET: APIRoute = async ({ request, locals }) => {
       params.push(parseInt(categoryId));
     }
 
-    const results = await db.prepare(query).bind(...params).all();
+    const stmt = db.prepare(query);
+    const results = params.length > 0 ? await stmt.bind(...params).all() : await stmt.all();
     return jsonResponse(results.results);
   } catch (error: any) {
     console.error('Service updates error:', error);

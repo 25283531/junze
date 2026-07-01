@@ -22,7 +22,8 @@ const GET = async ({ request, locals }) => {
                ORDER BY su.publish_date DESC, su.sort_order ASC`;
       params.push(parseInt(categoryId));
     }
-    const results = await db.prepare(query).bind(...params).all();
+    const stmt = db.prepare(query);
+    const results = params.length > 0 ? await stmt.bind(...params).all() : await stmt.all();
     return jsonResponse(results.results);
   } catch (error) {
     console.error("Service updates error:", error);
