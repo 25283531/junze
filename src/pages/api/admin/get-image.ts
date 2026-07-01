@@ -18,21 +18,37 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const value = await kv.get(key, 'text');
     if (!value) return jsonResponse({ error: 'Not found' }, 404);
 
-    const imageData = JSON.parse(value);
-
-    // Decode base64 to binary without using Node.js Buffer
-    const binaryString = atob(imageData.data);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+    let imageData;
+    try {
+      imageData = JSON.parse(value);
+    } catch (e) {
+      console.error('Get image: invalid JSON data for key:', key);
+      return jsonResponse({ error: 'Invalid image data' }, 400);
     }
 
-    return new Response(bytes, {
-      headers: {
-        'Content-Type': imageData.mimeType,
-        'Cache-Control': 'public, max-age=31536000',
-      },
-    });
+    if (!imageData.data || !imageData.mimeType) {
+      console.error('Get image: missing data or mimeType for key:', key);
+      return jsonResponse({ error: 'Incomplete image data' }, 400);
+    }
+
+    try {
+      // Decode base64 to binary without using Node.js Buffer
+      const binaryString = atob(imageData.data);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      return new Response(bytes, {
+        headers: {
+          'Content-Type': imageData.mimeType,
+          'Cache-Control': 'public, max-age=31536000',
+        },
+      });
+    } catch (e) {
+      console.error('Get image: base64 decode failed for key:', key, e?.message);
+      return jsonResponse({ error: 'Corrupted image data' }, 400);
+    }
   } catch (error: any) {
     console.error('Get image error:', error);
     return jsonResponse({ error: error.message }, 500);

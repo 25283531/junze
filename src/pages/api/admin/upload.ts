@@ -10,6 +10,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const authError = await checkAuth(request, env);
   if (authError) return authError;
 
+  const kv = env.KV;
+  if (!kv) {
+    console.error('Upload: KV binding not available');
+    return jsonResponse({ error: 'KV binding not available' }, 500);
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -18,9 +24,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return jsonResponse({ error: 'No file uploaded' }, 400);
     }
 
+    console.log('Upload: file received, size:', file.size, 'type:', file.type);
+
     const buffer = await file.arrayBuffer();
     const uint8Array = new Uint8Array(buffer);
-    // Chunked base64 encoding to avoid call stack overflow on large files
+
+    // Chunked base64 encoding
     let base64 = '';
     const chunkSize = 1024;
     for (let i = 0; i < uint8Array.length; i += chunkSize) {
@@ -31,23 +40,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
       base64 += btoa(binary);
     }
-    const mimeType = file.type;
 
     const imageData = {
       data: base64,
-      mimeType: mimeType,
+      mimeType: file.type,
       filename: file.name,
       uploadedAt: new Date().toISOString()
     };
 
-    const imageKey = `license_${Date.now()}`;
-    await env.KV.put(imageKey, JSON.stringify(imageData), {
+    const imageKey = `img_${Date.now()}`;
+    console.log('Upload: writing to KV, key:', imageKey, 'data length:', base64.length);
+    await kv.put(imageKey, JSON.stringify(imageData), {
       expirationTtl: 60 * 60 * 24 * 365
     });
+    console.log('Upload: KV write complete');
 
     return jsonResponse({ success: true, imageKey });
   } catch (error: any) {
-    console.error('Upload error:', error);
+    console.error('Upload error:', error?.message, error?.stack);
     return jsonResponse({ error: error.message || 'Internal server error' }, 500);
   }
 };

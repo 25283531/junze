@@ -86,9 +86,19 @@ const $$Settings = createComponent(async ($$result, $$props, $$slots) => {
         
         if (settings.license_image_key) {
           licenseImageKey.value = settings.license_image_key;
-          previewImage.src = \`/api/admin/get-image?key=\${settings.license_image_key}\`;
-          imagePreview.classList.remove('hidden');
-          uploadArea.classList.add('hidden');
+          // Test if the image can be loaded; old data may be corrupted
+          const imgTest = new Image();
+          imgTest.onload = function() {
+            previewImage.src = \`/api/admin/get-image?key=\${settings.license_image_key}\`;
+            imagePreview.classList.remove('hidden');
+            uploadArea.classList.add('hidden');
+          };
+          imgTest.onerror = function() {
+            // Old image data is corrupted, clear it
+            licenseImageKey.value = '';
+            console.log('Old license image is corrupted, please re-upload');
+          };
+          imgTest.src = \`/api/admin/get-image?key=\${settings.license_image_key}\`;
         }
       }
     }
@@ -200,9 +210,19 @@ const $$Settings = createComponent(async ($$result, $$props, $$slots) => {
         
         if (settings.license_image_key) {
           licenseImageKey.value = settings.license_image_key;
-          previewImage.src = \\\`/api/admin/get-image?key=\\\${settings.license_image_key}\\\`;
-          imagePreview.classList.remove('hidden');
-          uploadArea.classList.add('hidden');
+          // Test if the image can be loaded; old data may be corrupted
+          const imgTest = new Image();
+          imgTest.onload = function() {
+            previewImage.src = \\\`/api/admin/get-image?key=\\\${settings.license_image_key}\\\`;
+            imagePreview.classList.remove('hidden');
+            uploadArea.classList.add('hidden');
+          };
+          imgTest.onerror = function() {
+            // Old image data is corrupted, clear it
+            licenseImageKey.value = '';
+            console.log('Old license image is corrupted, please re-upload');
+          };
+          imgTest.src = \\\`/api/admin/get-image?key=\\\${settings.license_image_key}\\\`;
         }
       }
     }
