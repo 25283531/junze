@@ -215,20 +215,14 @@ const $$Updates = createComponent(async ($$result, $$props, $$slots) => {
         document.getElementById('updatePublishDate').value = u.publish_date || '';
         document.getElementById('updateSortOrder').value = u.sort_order || 0;
         if (u.image_key) {
-          imageKeyInput.value = u.image_key;
-          // Test if the image can be loaded; old data may be corrupted
-          const imgTest = new Image();
-          imgTest.onload = function() {
+          if (u.image_key.startsWith('img_')) {
+            imageKeyInput.value = u.image_key;
             previewImage.src = '/api/admin/get-image?key=' + u.image_key;
             imagePreview.classList.remove('hidden');
             uploadArea.classList.add('hidden');
-          };
-          imgTest.onerror = function() {
-            // Old image data is corrupted, clear it
-            imageKeyInput.value = '';
-            console.log('Old update image is corrupted, please re-upload');
-          };
-          imgTest.src = '/api/admin/get-image?key=' + u.image_key;
+          } else {
+            console.log('Old update image key detected, clearing. Please re-upload.');
+          }
         } else {
           removeUpdateImage();
         }
