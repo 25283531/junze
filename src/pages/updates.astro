@@ -1,0 +1,137 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getAllServiceUpdateCategories, getAllServiceUpdates, getBusinessInfo } from '@/lib/db.js';
+
+const env = Astro.locals.runtime.env;
+const business = await getBusinessInfo(env);
+const categories = await getAllServiceUpdateCategories(env);
+const updates = await getAllServiceUpdates(env);
+---
+
+<Layout title="服务动态 - 钧泽安居" description="钧泽安居最新服务动态，工程承接、工程完成、业主好评、施工风采" keywords="平顶山家居服务动态,钧泽安居工程,平顶山装修案例" business={business}>
+  <section class="bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="flex items-center space-x-2 text-gray-500">
+        <a href="/" class="hover:text-primary transition-colors">首页</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+        <span class="text-gray-900 font-medium">服务动态</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">服务动态</h1>
+        <p class="text-gray-500 text-lg">实时记录我们的每一次服务，见证品质与口碑</p>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <button
+          class="category-filter px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-primary text-white"
+          data-category-id=""
+        >全部</button>
+        {categories.map(cat => (
+          <button
+            class="category-filter px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-gray-100 text-gray-600 hover:bg-primary hover:text-white"
+            data-category-id={String(cat.id)}
+          >{cat.name}</button>
+        ))}
+      </div>
+
+      <!-- Updates Grid -->
+      <div id="updatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {updates.map(update => (
+          <article data-category-id={String(update.category_id || '')} class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100">
+            {update.image_key && (
+              <div class="aspect-video bg-gray-100 overflow-hidden">
+                <img
+                  src={`/api/admin/get-image?key=${update.image_key}`}
+                  alt={update.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                {update.category_name && (
+                  <span class="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
+                    {update.category_name}
+                  </span>
+                )}
+                {update.publish_date && (
+                  <span class="text-gray-400 text-sm">{update.publish_date}</span>
+                )}
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">{update.title}</h3>
+              {update.content && (
+                <p class="text-gray-500 text-sm mb-3 line-clamp-3">{update.content}</p>
+              )}
+              {update.community && (
+                <div class="flex items-center text-sm text-gray-400">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  {update.community}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-20">
+        <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+        </svg>
+        <p class="text-gray-400 text-lg">暂无动态</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Category filter
+    const filterButtons = document.querySelectorAll('.category-filter');
+    const allUpdates = Array.from(document.querySelectorAll('#updatesGrid > article'));
+    const emptyState = document.getElementById('emptyState');
+    const grid = document.getElementById('updatesGrid');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-white');
+          b.classList.add('bg-gray-100', 'text-gray-600');
+        });
+        btn.classList.remove('bg-gray-100', 'text-gray-600');
+        btn.classList.add('bg-primary', 'text-white');
+
+        const categoryId = btn.dataset.categoryId;
+        let visibleCount = 0;
+
+        allUpdates.forEach(article => {
+          if (!categoryId || article.dataset.categoryId === categoryId) {
+            article.style.display = '';
+            visibleCount++;
+          } else {
+            article.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          grid.classList.add('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+          grid.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</Layout>

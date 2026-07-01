@@ -2,4 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
+# Content Signals (https://contentsignals.org/)
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
 Sitemap: /sitemap-index.xml

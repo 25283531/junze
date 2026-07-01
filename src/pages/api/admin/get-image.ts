@@ -1,35 +1,32 @@
 import type { APIRoute } from 'astro';
+import { jsonResponse, handleOptions } from '@/lib/auth.js';
 
 export const prerender = false;
 
+export const OPTIONS: APIRoute = () => handleOptions();
+
 export const GET: APIRoute = async ({ request, locals }) => {
-  const env = (locals as any).runtime?.env;
-  const url = new URL(request.url);
-  const key = url.searchParams.get('key');
-  
-  if (!key) {
-    return new Response('Bad Request', { status: 400 });
-  }
+  const env = locals as any;
+  const kv = env.KV;
+  if (!kv) return jsonResponse({ error: 'KV not available' }, 500);
 
   try {
-    const imageDataStr = await env.KV.get(key);
-    if (!imageDataStr) {
-      return new Response('Not Found', { status: 404 });
-    }
+    const url = new URL(request.url);
+    const key = url.searchParams.get('key');
+    if (!key) return jsonResponse({ error: 'Missing key' }, 400);
 
-    const imageData = JSON.parse(imageDataStr);
-    const buffer = Uint8Array.from(atob(imageData.data), c => c.charCodeAt(0));
+    const value = await kv.get(key, 'text');
+    if (!value) return jsonResponse({ error: 'Not found' }, 404);
 
-    return new Response(buffer, {
+    const imageData = JSON.parse(value);
+    return new Response(Buffer.from(imageData.data, 'base64'), {
       headers: {
         'Content-Type': imageData.mimeType,
-        'Content-Disposition': 'inline',
-        'Cache-Control': 'public, max-age=86400',
-        'X-Robots-Tag': 'noindex, nofollow',
+        'Cache-Control': 'public, max-age=31536000',
       },
     });
   } catch (error: any) {
     console.error('Get image error:', error);
-    return new Response('Internal Server Error', { status: 500 });
+    return jsonResponse({ error: error.message }, 500);
   }
 };

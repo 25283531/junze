@@ -7,7 +7,7 @@ const business = await getBusinessInfo(env);
 
 const name = business?.name || '钧泽安居';
 const description = business?.description || '钧泽安居是河南平顶山本地专业的家居服务平台，致力于为平顶山市民提供优质、专业、便捷的家居服务。';
-const telephone = business?.telephone || '0375-8888888';
+const telephone = business?.telephone || '';
 const address = business?.address || '平顶山市湛河区建设路东段';
 const wechat = business?.wechat || 'junze-anju';
 const license = business?.license || '营业执照号：XXXXXX';
@@ -15,7 +15,7 @@ const licenseImageKey = business?.license_image_key || '';
 const serviceAreas = business?.service_areas || [];
 ---
 
-<Layout title={`关于我们 - ${name}`} description={`${name}是河南平顶山本地专业的家居服务平台，提供家政服务、水电维修、适老化改造、智能家居等七大核心业务`} keywords="钧泽安居介绍,平顶山家居服务,家政服务公司">
+<Layout title={`关于我们 - ${name}`} description={`${name}是河南平顶山本地专业的家居服务平台，提供家政服务、水电维修、适老化改造、智能家居等七大核心业务`} keywords="钧泽安居介绍,平顶山家居服务,家政服务公司" business={business}>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",

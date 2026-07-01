@@ -44,3 +44,28 @@ export async function getBusinessInfo(env) {
   }
   return result;
 }
+
+export async function getAllServiceUpdateCategories(env) {
+  const db = getDb(env);
+  const results = await db.prepare('SELECT * FROM service_update_categories ORDER BY sort_order ASC').all();
+  return results.results;
+}
+
+export async function getAllServiceUpdates(env, categoryId) {
+  const db = getDb(env);
+  let query = `SELECT su.*, suc.name as category_name
+               FROM service_updates su
+               LEFT JOIN service_update_categories suc ON su.category_id = suc.id
+               ORDER BY su.publish_date DESC, su.sort_order ASC`;
+  const params = [];
+  if (categoryId) {
+    query = `SELECT su.*, suc.name as category_name
+             FROM service_updates su
+             LEFT JOIN service_update_categories suc ON su.category_id = suc.id
+             WHERE su.category_id = ?
+             ORDER BY su.publish_date DESC, su.sort_order ASC`;
+    params.push(categoryId);
+  }
+  const results = await db.prepare(query).bind(...params).all();
+  return results.results;
+}

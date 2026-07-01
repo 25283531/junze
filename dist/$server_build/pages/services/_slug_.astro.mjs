@@ -1,6 +1,6 @@
-import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../../chunks/astro/server_BiXOaMPZ.mjs';
+import { c as createAstro, a as createComponent, f as renderComponent, d as renderTemplate, e as addAttribute, m as maybeRenderHead } from '../../chunks/astro/server_DkHii4NB.mjs';
 import 'kleur/colors';
-import { c as getServiceBySlug, g as getBusinessInfo, $ as $$Layout } from '../../chunks/db_CXI2vQX4.mjs';
+import { c as getServiceBySlug, g as getBusinessInfo, $ as $$Layout } from '../../chunks/db_BS4_5DSJ.mjs';
 export { renderers } from '../../renderers.mjs';
 
 var __freeze = Object.freeze;
@@ -22,7 +22,7 @@ const $$slug = createComponent(async ($$result, $$props, $$slots) => {
     return Astro2.redirect("/services");
   }
   const business = await getBusinessInfo(env);
-  const telephone = business?.telephone || "0375-8888888";
+  const telephone = business?.telephone || "";
   const iconPaths = {
     Home: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
     Wrench: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",

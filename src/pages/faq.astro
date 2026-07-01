@@ -5,11 +5,11 @@ import { getAllFaq, getBusinessInfo } from '@/lib/db.js';
 const env = Astro.locals.runtime.env;
 const faqs = await getAllFaq(env);
 const business = await getBusinessInfo(env);
-const telephone = business?.telephone || '0375-8888888';
+const telephone = business?.telephone || '';
 const categories = [...new Set(faqs.map(f => f.category).filter(Boolean))];
 ---
 
-<Layout title="常见问题 - 钧泽安居" description="钧泽安居常见问题解答，涵盖适老化改造、水电维修、家政服务、智能家居等服务相关问题" keywords="平顶山家居服务常见问题,适老化改造问答,水电维修问答">
+<Layout title="常见问题 - 钧泽安居" description="钧泽安居常见问题解答，涵盖适老化改造、水电维修、家政服务、智能家居等服务相关问题" keywords="平顶山家居服务常见问题,适老化改造问答,水电维修问答" business={business}>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",

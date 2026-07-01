@@ -12,13 +12,13 @@ const business = await getBusinessInfo(env);
 
 const serviceAreas = business?.service_areas || [];
 const categories = [...new Set(faqs.map(f => f.category).filter(Boolean))];
-const telephone = business?.telephone || '0375-8888888';
+const telephone = business?.telephone || '';
 const heroTitle = business?.name || '钧泽安居';
 const heroDesc = business?.description || '专业提供家政服务、水电维修、适老化改造、智能家居等七大核心业务，为平顶山市民打造舒适、安全、智慧的家居生活';
 ---
 
-<Layout title={`${heroTitle} - 河南平顶山一站式家居服务平台`} description={heroDesc} keywords="平顶山家政服务,平顶山水电维修,平顶山适老化改造,智能家居,房屋检测,保洁清洗">
-  <JsonLd />
+<Layout title={`${heroTitle} - 河南平顶山一站式家居服务平台`} description={heroDesc} keywords="平顶山家政服务,平顶山水电维修,平顶山适老化改造,智能家居,房屋检测,保洁清洗" business={business}>
+  <JsonLd business={business} />
 
   <!-- Hero Section -->
   <section class="relative overflow-hidden bg-gradient-to-br from-primary via-primary-dark to-blue-800 text-white py-24 px-4">

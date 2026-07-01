@@ -1,24 +1,32 @@
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "钧泽安居",
-    "description": "河南平顶山本地专业的家政、水电维修、适老化与智能家居改造服务商",
-    "areaServed": ["湛河区", "卫东区", "新华区", "石龙区", "舞钢市", "汝州市", "郏县", "宝丰县", "鲁山县"],
-    "telephone": "0375-8888888",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "平顶山",
-      "addressRegion": "河南"
-    },
-    "service": [
-      { "@type": "Service", "name": "家政服务" },
-      { "@type": "Service", "name": "水电维修" },
-      { "@type": "Service", "name": "局部改造" },
-      { "@type": "Service", "name": "适老化改造" },
-      { "@type": "Service", "name": "智能家居" },
-      { "@type": "Service", "name": "房屋检测" },
-      { "@type": "Service", "name": "保洁清洗" }
-    ]
-  }
-</script>
+---
+const b = Astro.props.business || {};
+const name = b.name || '钧泽安居';
+const description = b.description || '河南平顶山本地专业的家政、水电维修、适老化与智能家居改造服务商';
+const telephone = b.telephone || '';
+const address = b.address || '';
+const serviceAreas = b.service_areas || ['湛河区', '卫东区', '新华区', '石龙区', '舞钢市', '汝州市', '郏县', '宝丰县', '鲁山县'];
+const services = b.services || [
+  { "@type": "Service", "name": "家政服务" },
+  { "@type": "Service", "name": "水电维修" },
+  { "@type": "Service", "name": "局部改造" },
+  { "@type": "Service", "name": "适老化改造" },
+  { "@type": "Service", "name": "智能家居" },
+  { "@type": "Service", "name": "房屋检测" },
+  { "@type": "Service", "name": "保洁清洗" }
+];
+---
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": name,
+  "description": description,
+  "areaServed": serviceAreas,
+  "telephone": telephone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": address,
+    "addressLocality": "平顶山",
+    "addressRegion": "河南"
+  },
+  "service": services
+})} />

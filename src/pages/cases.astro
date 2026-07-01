@@ -5,10 +5,10 @@ import { getAllCases, getBusinessInfo } from '@/lib/db.js';
 const env = Astro.locals.runtime.env;
 const cases = await getAllCases(env);
 const business = await getBusinessInfo(env);
-const telephone = business?.telephone || '0375-8888888';
+const telephone = business?.telephone || '';
 ---
 
-<Layout title="真实案例 - 钧泽安居" description="钧泽安居真实服务案例展示，涵盖平顶山各区县的适老化改造、水电维修、局部改造、智能家居等服务案例" keywords="平顶山适老化改造案例,平顶山水电改造案例,平顶山智能家居案例">
+<Layout title="真实案例 - 钧泽安居" description="钧泽安居真实服务案例展示，涵盖平顶山各区县的适老化改造、水电维修、局部改造、智能家居等服务案例" keywords="平顶山适老化改造案例,平顶山水电改造案例,平顶山智能家居案例" business={business}>
   <section class="bg-gray-50 py-8">
     <div class="max-w-6xl mx-auto px-4">
       <nav class="flex items-center space-x-2 text-gray-500">

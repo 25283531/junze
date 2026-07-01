@@ -84,3 +84,35 @@ INSERT OR IGNORE INTO business_info (id, name, description, telephone, address, 
 
 INSERT OR IGNORE INTO admin_users (username, password_hash) VALUES
 ('admin', '$2b$10$EixZaYbB.rK4fl8x2q7Meu6Q6D2V5fF5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q');
+
+CREATE TABLE IF NOT EXISTS service_update_categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  sort_order INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS service_updates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category_id INTEGER,
+  title TEXT NOT NULL,
+  content TEXT,
+  image_key TEXT,
+  community TEXT,
+  publish_date TEXT,
+  sort_order INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (category_id) REFERENCES service_update_categories(id)
+);
+
+INSERT OR IGNORE INTO service_update_categories (name, sort_order) VALUES
+('工程承接', 1),
+('工程完成', 2),
+('业主好评', 3),
+('施工风采', 4);
+
+INSERT OR IGNORE INTO service_updates (category_id, title, content, community, publish_date, sort_order) VALUES
+(1, '承接阳光花园小区适老化改造工程', '为阳光花园小区3栋2单元王奶奶家进行全屋适老化改造，包括卫生间防滑处理、安全扶手安装、毫米波雷达跌倒检测系统部署', '阳光花园小区', '2026-06-28', 1),
+(2, '完成建设路家属院水电改造工程', '顺利完成建设路街道办事处家属院老房水电线路全面改造，更换全部老化电线，重新布置电路走向，更换水管和水龙头', '建设路街道办事处家属院', '2026-06-25', 2),
+(3, '获得绿城小区业主好评', '全屋智能家居系统安装完成，业主对智能照明、智能安防、智能窗帘的安装效果非常满意，生活品质提升明显', '绿城小区', '2026-06-20', 3);
